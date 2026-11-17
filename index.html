@@ -1,0 +1,1189 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Kan Fizyolojisi Haritası</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Nunito:wght@400;600;800;900&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#fff8f6; --paper:#ffffff; --ink:#2a1b1f; --mute:#6f5c61; --line:#f0dcdc;
+  --c1:#e11d48; --c2:#d97706; --c3:#dc2626; --c4:#7c3aed; --c5:#059669; --c6:#db2777; --c7:#ea580c; --c8:#2563eb;
+  --codebg:#fff4d6; --codeink:#6b4a00; --star:#fde68a;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#1a1214; --paper:#251a1d; --ink:#f7ecee; --mute:#c2adb2; --line:#3d2b30;
+    --c1:#fb7185; --c2:#fbbf24; --c3:#f87171; --c4:#a78bfa; --c5:#34d399; --c6:#f472b6; --c7:#fb923c; --c8:#60a5fa;
+    --codebg:#3a2f12; --codeink:#fde68a; --star:#7a5d10;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#1a1214; --paper:#251a1d; --ink:#f7ecee; --mute:#c2adb2; --line:#3d2b30;
+  --c1:#fb7185; --c2:#fbbf24; --c3:#f87171; --c4:#a78bfa; --c5:#34d399; --c6:#f472b6; --c7:#fb923c; --c8:#60a5fa;
+  --codebg:#3a2f12; --codeink:#fde68a; --star:#7a5d10;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:Nunito,system-ui,sans-serif;font-size:16px;line-height:1.55}
+.wrap{max-width:1050px;margin:0 auto;padding:0 16px 80px}
+/* HERO */
+.hero{text-align:center;padding:36px 0 10px}
+.nur{font-family:Caveat,cursive;font-size:clamp(52px,12vw,96px);line-height:1;color:var(--c1);margin:0;animation:beat 2.4s ease-in-out infinite}
+@keyframes beat{0%,100%{transform:scale(1)}12%{transform:scale(1.05)}24%{transform:scale(1)}36%{transform:scale(1.04)}}
+@media (prefers-reduced-motion: reduce){.nur{animation:none}}
+.hero h1{font-size:clamp(22px,5vw,34px);margin:10px 0 4px;font-weight:900}
+.hero p{color:var(--mute);margin:4px 0}
+.pill{display:inline-block;border:1px solid var(--line);background:var(--paper);border-radius:99px;padding:3px 12px;font-size:13px;color:var(--mute);margin:3px}
+/* NAV */
+nav.top{position:sticky;top:0;z-index:5;background:color-mix(in srgb,var(--bg) 88%,transparent);backdrop-filter:blur(6px);border-bottom:1px solid var(--line);margin:0 -16px;padding:8px 16px;display:flex;gap:6px;overflow-x:auto;scrollbar-width:none}
+nav.top a{flex:none;text-decoration:none;font-weight:800;font-size:13px;padding:5px 11px;border-radius:99px;color:#fff;white-space:nowrap}
+/* MAP */
+.map{background:var(--paper);border:1px solid var(--line);border-radius:22px;padding:10px;margin:18px 0}
+.map svg{width:100%;height:auto;display:block}
+.map a{cursor:pointer}
+.map a:hover rect{filter:brightness(1.08);stroke-width:3}
+.hint{text-align:center;color:var(--mute);font-size:13px;margin:4px 0 0}
+/* SECTIONS */
+section.s{margin:34px 0;scroll-margin-top:56px}
+.shead{display:flex;align-items:center;gap:12px;border-radius:18px;padding:14px 18px;color:#fff;margin-bottom:14px}
+.shead .no{font-size:34px;font-weight:900;opacity:.9;line-height:1}
+.shead h2{margin:0;font-size:clamp(20px,4.5vw,28px);line-height:1.15}
+.shead small{display:block;font-weight:600;opacity:.92;font-size:13px}
+.shead label{margin-left:auto;font-size:12px;font-weight:800;display:flex;align-items:center;gap:6px;background:rgba(255,255,255,.2);padding:6px 10px;border-radius:99px;cursor:pointer;white-space:nowrap}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(290px,1fr));gap:12px}
+.card{background:var(--paper);border:1px solid var(--line);border-left:6px solid var(--k,var(--c1));border-radius:14px;padding:14px 16px}
+.card h3{margin:0 0 6px;font-size:18px;color:var(--k,var(--c1))}
+.card h4{margin:10px 0 4px;font-size:15px}
+.card ul{margin:4px 0;padding-left:20px}
+.card li{margin:2px 0}
+.sl{float:right;font-size:11px;font-weight:800;color:var(--mute);border:1px solid var(--line);border-radius:6px;padding:1px 6px;margin-left:6px}
+.n{background:var(--star);border-radius:5px;padding:0 4px;font-weight:800;white-space:nowrap}
+.code{background:var(--codebg);color:var(--codeink);border:2px dashed currentColor;border-radius:14px;padding:10px 14px;margin:10px 0;font-weight:700}
+.code b.big{font-size:20px;letter-spacing:1px}
+.code::before{content:"🧠 HAFIZA KODU  ";font-size:12px;font-weight:900;letter-spacing:.5px}
+.warn{background:color-mix(in srgb,var(--c1) 10%,var(--paper));border:1px solid color-mix(in srgb,var(--c1) 35%,transparent);border-radius:12px;padding:8px 12px;margin:8px 0;font-size:14px}
+.warn::before{content:"⚠️ Tuzak: ";font-weight:900}
+.note{font-size:13px;color:var(--mute)}
+.wide{grid-column:1/-1}
+/* FLOW */
+.flow{display:flex;flex-wrap:wrap;align-items:stretch;gap:6px;margin:8px 0}
+.flow .st{flex:1 1 120px;background:color-mix(in srgb,var(--k,var(--c1)) 12%,var(--paper));border:2px solid var(--k,var(--c1));border-radius:12px;padding:8px 10px;font-size:14px;position:relative}
+.flow .st b{display:block;color:var(--k,var(--c1))}
+.flow .ar{align-self:center;font-weight:900;color:var(--k,var(--c1));font-size:20px}
+.flow.v{flex-direction:column}
+.flow.v .ar{align-self:flex-start;margin-left:20px}
+/* TABLE */
+table{border-collapse:collapse;width:100%;font-size:14px}
+th,td{border:1px solid var(--line);padding:6px 8px;text-align:left;vertical-align:top}
+th{background:color-mix(in srgb,var(--k,var(--c1)) 14%,var(--paper))}
+.tw{overflow-x:auto}
+/* TREE */
+.tree{font-size:14px}
+.tree ul{list-style:none;margin:0;padding-left:18px;border-left:2px dashed var(--k,var(--c4))}
+.tree>ul{border:0;padding-left:0}
+.tree li{position:relative;padding:3px 0 3px 10px}
+.tree li::before{content:"";position:absolute;left:-18px;top:14px;width:24px;border-top:2px dashed var(--k,var(--c4))}
+.tree>ul>li::before{display:none}
+.tag{display:inline-block;border-radius:8px;padding:1px 8px;font-weight:800;color:#fff;background:var(--k,var(--c4))}
+/* BAR */
+.bar{display:flex;height:34px;border-radius:10px;overflow:hidden;font-size:12px;font-weight:800;color:#fff;margin:8px 0}
+.bar div{display:flex;align-items:center;justify-content:center;white-space:nowrap;overflow:hidden}
+/* cells */
+.cells{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:10px}
+.cell{background:var(--paper);border:1px solid var(--line);border-radius:14px;padding:12px;border-top:6px solid var(--k)}
+.cell h4{margin:0 0 4px;color:var(--k);font-size:17px}
+.cell .pc{font-size:22px;font-weight:900}
+.cell ul{padding-left:18px;margin:4px 0;font-size:14px}
+/* FLASH */
+.fc-wrap{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:10px}
+.fc{perspective:900px;min-height:130px;cursor:pointer}
+.fc-in{position:relative;width:100%;height:100%;min-height:130px;transition:transform .5s;transform-style:preserve-3d}
+.fc.on .fc-in{transform:rotateY(180deg)}
+.fc-f,.fc-b{position:absolute;inset:0;backface-visibility:hidden;border-radius:14px;padding:12px;display:flex;align-items:center;justify-content:center;text-align:center;font-weight:700;font-size:15px}
+.fc-f{background:var(--paper);border:2px solid var(--line)}
+.fc-b{background:var(--c1);color:#fff;transform:rotateY(180deg)}
+@media (prefers-reduced-motion: reduce){.fc-in{transition:none}}
+.btn{border:0;border-radius:99px;padding:8px 16px;font-weight:800;font-family:inherit;cursor:pointer;background:var(--ink);color:var(--bg);font-size:14px}
+/* SLIDES */
+.slides{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:6px;font-size:13px}
+.slides a{display:block;text-decoration:none;color:var(--ink);background:var(--paper);border:1px solid var(--line);border-left:5px solid var(--k);border-radius:8px;padding:5px 8px}
+.slides a b{color:var(--k)}
+.prog{height:10px;background:var(--line);border-radius:99px;overflow:hidden;margin:8px 0}
+.prog div{height:100%;width:0;background:linear-gradient(90deg,var(--c1),var(--c6));transition:width .4s}
+/* HOCA VURGUSU */
+.hvb{display:inline-block;background:#c00000;color:#fff;font-size:11px;font-weight:900;border-radius:6px;padding:1px 7px;margin-right:6px;vertical-align:middle;letter-spacing:.3px}
+.hedef{display:grid;gap:8px}
+.hd{display:flex;gap:10px;align-items:flex-start;background:var(--paper);border:1px solid var(--line);border-left:6px solid #c00000;border-radius:12px;padding:10px 12px;cursor:pointer}
+.hd input{width:22px;height:22px;flex:none;margin-top:2px;accent-color:#16a34a}
+.hd .q{font-weight:800}
+.hd .q i{font-style:normal;color:#c00000}
+.hd .q i.blue{color:#0070c0}
+.hd .a{font-size:14px;margin-top:3px}
+.hd.ok{opacity:.55;border-left-color:#16a34a}
+.hd .sn{font-size:11px;font-weight:900;color:var(--mute);margin-left:auto;white-space:nowrap}
+/* EZBER MODU */
+body.ezber .n, body.ezber #sayilar td:nth-child(2), body.ezber .hd .a{color:transparent!important;background:var(--star);border-radius:5px;cursor:pointer;user-select:none;text-shadow:none}
+body.ezber .n.show, body.ezber #sayilar td.show, body.ezber .hd .a.show{color:inherit!important}
+.ezbtn{flex:none;border:2px solid var(--ink);background:var(--paper);color:var(--ink);font-weight:900;font-size:13px;padding:4px 11px;border-radius:99px;cursor:pointer;font-family:inherit}
+body.ezber .ezbtn{background:var(--ink);color:var(--bg)}
+/* HİKAYE */
+.story{background:linear-gradient(135deg,color-mix(in srgb,var(--c1) 10%,var(--paper)),color-mix(in srgb,var(--c4) 8%,var(--paper)));border:1px solid var(--line);border-radius:20px;padding:6px 18px 14px}
+.story h3{margin:16px 0 4px;font-size:19px}
+.story p{margin:4px 0 10px}
+.story .ch{display:inline-block;background:var(--ink);color:var(--bg);border-radius:8px;padding:0 8px;font-size:12px;font-weight:900;margin-right:6px}
+.cheat{columns:2 300px;column-gap:18px;font-size:14.5px}
+.cheat div{break-inside:avoid;margin:0 0 8px;padding:7px 10px;border-radius:10px;background:var(--paper);border:1px solid var(--line);border-left:5px solid var(--k)}
+.cheat b{color:var(--k)}
+footer{text-align:center;color:var(--mute);margin-top:50px}
+footer .nur{font-size:44px;animation:none}
+@media print{nav.top{display:none}.fc-b{position:static;transform:none}.fc-f{display:none}.fc-in{transform:none!important}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header class="hero">
+  <p class="nur">Nurum bitanem 💗</p>
+  <h1>🩸 Kan Fizyolojisi — 0'dan 100'e Zihin Haritası</h1>
+  <p>Fizyoloji Ders 5 · Dr. Hülya Buzcu · <b>62 slaytın tamamı</b>, hiçbir bilgi eksiltilmeden</p>
+  <div>
+    <span class="pill">🧠 = hafıza kodu</span><span class="pill"><span class="n">sarı</span> = sınavlık sayı</span><span class="pill">⚠️ = tuzak / karışan</span><span class="pill">[S12] = slayt no</span>
+  </div>
+  <div class="prog" title="Bitirdiğin bölümler"><div id="progbar"></div></div>
+  <p class="note" id="progtxt">Bölümleri bitirdikçe başlıktaki ✓ kutusunu işaretle.</p>
+</header>
+
+<nav class="top">
+  <button class="ezbtn" id="ezbtn" title="Sayıları gizler; dokununca açılır">🙈 Ezber modu</button>
+  <a href="#sehir" style="background:#111">🏙️ Kan Şehri</a>
+  <a href="#hoca" style="background:#c00000">🎯 Hocanın Vurguları</a>
+  <a href="#s1" style="background:var(--c1)">1 Kan</a>
+  <a href="#s2" style="background:var(--c2)">2 Plazma</a>
+  <a href="#s3" style="background:var(--c3)">3 Eritrosit</a>
+  <a href="#s4" style="background:var(--c4)">4 Lökosit</a>
+  <a href="#s5" style="background:var(--c5)">5 Bağışıklık</a>
+  <a href="#s6" style="background:var(--c6)">6 Trombosit</a>
+  <a href="#s7" style="background:var(--c7)">7 Hemostaz</a>
+  <a href="#s8" style="background:var(--c8)">8 Kan Grubu</a>
+  <a href="#sayilar" style="background:#555">🔢 Sayılar</a>
+  <a href="#karisan" style="background:#555">⚠️ Karışanlar</a>
+  <a href="#son10" style="background:#555">⏱️ Son 10 dk</a>
+  <a href="#test" style="background:#555">🃏 Test</a>
+  <a href="#slaytlar" style="background:#555">✅ 62 Slayt</a>
+</nav>
+
+<!-- ============ ANA HARİTA ============ -->
+<div class="map">
+<svg viewBox="0 0 800 560" role="img" aria-label="Kan fizyolojisi ana zihin haritası">
+  <g fill="none" stroke-width="5" stroke-linecap="round" opacity=".55">
+    <path d="M400 280 Q400 170 400 108" stroke="var(--c1)"/>
+    <path d="M400 280 Q520 220 605 170" stroke="var(--c2)"/>
+    <path d="M400 280 Q560 280 690 280" stroke="var(--c3)"/>
+    <path d="M400 280 Q520 340 605 390" stroke="var(--c4)"/>
+    <path d="M400 280 Q400 390 400 452" stroke="var(--c5)"/>
+    <path d="M400 280 Q280 340 195 390" stroke="var(--c6)"/>
+    <path d="M400 280 Q240 280 110 280" stroke="var(--c7)"/>
+    <path d="M400 280 Q280 220 195 170" stroke="var(--c8)"/>
+  </g>
+  <circle cx="400" cy="280" r="62" fill="var(--c1)"/>
+  <circle cx="400" cy="280" r="70" fill="none" stroke="var(--c1)" stroke-width="2" stroke-dasharray="4 6"/>
+  <text x="400" y="276" text-anchor="middle" fill="#fff" font-weight="900" font-size="30">KAN</text>
+  <text x="400" y="300" text-anchor="middle" fill="#fff" font-weight="700" font-size="12">pH 7.35–7.45 · 38°C</text>
+  <g font-family="Nunito,sans-serif" text-anchor="middle">
+    <a href="#s1"><rect x="315" y="44" width="170" height="64" rx="16" fill="var(--paper)" stroke="var(--c1)" stroke-width="2.5"/><text x="400" y="70" font-weight="900" font-size="16" fill="var(--c1)">1 · KAN NEDİR</text><text x="400" y="92" font-size="12" fill="var(--ink)">Bağ dokusu · DDK işlevi</text></a>
+    <a href="#s2"><rect x="520" y="106" width="170" height="64" rx="16" fill="var(--paper)" stroke="var(--c2)" stroke-width="2.5"/><text x="605" y="132" font-weight="900" font-size="16" fill="var(--c2)">2 · PLAZMA %55</text><text x="605" y="154" font-size="12" fill="var(--ink)">Serum farkı · Alb/Glob/Fib</text></a>
+    <a href="#s3"><rect x="605" y="248" width="170" height="64" rx="16" fill="var(--paper)" stroke="var(--c3)" stroke-width="2.5"/><text x="690" y="274" font-weight="900" font-size="16" fill="var(--c3)">3 · ERİTROSİT</text><text x="690" y="296" font-size="12" fill="var(--ink)">Hb · üretim · yıkım</text></a>
+    <a href="#s4"><rect x="520" y="390" width="170" height="64" rx="16" fill="var(--paper)" stroke="var(--c4)" stroke-width="2.5"/><text x="605" y="416" font-weight="900" font-size="16" fill="var(--c4)">4 · LÖKOSİT</text><text x="605" y="438" font-size="12" fill="var(--ink)">N-L-M-E-B · lökopoez</text></a>
+    <a href="#s5"><rect x="300" y="452" width="200" height="64" rx="16" fill="var(--paper)" stroke="var(--c5)" stroke-width="2.5"/><text x="400" y="478" font-weight="900" font-size="16" fill="var(--c5)">5 · BAĞIŞIKLIK</text><text x="400" y="500" font-size="12" fill="var(--ink)">3 savunma hattı · Ig · T</text></a>
+    <a href="#s6"><rect x="110" y="390" width="170" height="64" rx="16" fill="var(--paper)" stroke="var(--c6)" stroke-width="2.5"/><text x="195" y="416" font-weight="900" font-size="16" fill="var(--c6)">6 · TROMBOSİT</text><text x="195" y="438" font-size="12" fill="var(--ink)">5–9 gün · megakaryosit</text></a>
+    <a href="#s7"><rect x="25" y="248" width="170" height="64" rx="16" fill="var(--paper)" stroke="var(--c7)" stroke-width="2.5"/><text x="110" y="274" font-weight="900" font-size="16" fill="var(--c7)">7 · HEMOSTAZ</text><text x="110" y="296" font-size="12" fill="var(--ink)">Spazm→Tıkaç→Pıhtı</text></a>
+    <a href="#s8"><rect x="110" y="106" width="170" height="64" rx="16" fill="var(--paper)" stroke="var(--c8)" stroke-width="2.5"/><text x="195" y="132" font-weight="900" font-size="16" fill="var(--c8)">8 · KAN GRUBU</text><text x="195" y="154" font-size="12" fill="var(--ink)">ABO · Rh (D)</text></a>
+  </g>
+</svg>
+<p class="hint">👆 Bir dala dokun, o bölüme ışınlan. Önce bu haritayı gözünü kapatıp çizebilecek hale gel; sonra dalları doldur.</p>
+</div>
+
+<div class="card" style="--k:var(--c1)">
+  <h3>🗺️ Hikâye olarak bütün ders (önce bunu oku)</h3>
+  <p><b>Kan</b> bir bağ dokusudur; içi <b>%55 sıvı (plazma)</b> + <b>%45 hücre (şekilli elemanlar)</b>. Hücrelerin üç ailesi var: <b style="color:var(--c3)">Eritrosit = kargocu</b> (O₂ taşır), <b style="color:var(--c4)">Lökosit = asker</b> (savaşır), <b style="color:var(--c6)">Trombosit = tamirci</b> (deliği tıkar). Askerlerin nasıl savaştığı = <b style="color:var(--c5)">Bağışıklık</b>. Tamircinin nasıl tıkadığı = <b style="color:var(--c7)">Hemostaz</b>. Kargocunun üstündeki "kimlik kartı" (antijen) = <b style="color:var(--c8)">Kan grubu</b>. Hepsi tek bir anneden doğar: <b>hemositoblast</b> (kırmızı kemik iliği).</p>
+</div>
+
+<!-- ============ KAN ŞEHRİ ============ -->
+<section class="s" id="sehir">
+  <div class="shead" style="background:#111"><span class="no">🏙️</span><div><h2>Kan Şehri — Hafıza Sarayı Hikâyesi</h2><small>Gözünü kapat, bu şehirde yürü. Her sokak bir bölüm, her karakter bir bilgi.</small></div></div>
+  <div class="story">
+    <h3><span class="ch">GİRİŞ</span>🌊 Nehir şehir</h3>
+    <p>Nurum, vücudunda kırmızı bir nehir şehri var. Nehrin suyu <b>hafif bazik</b> (pH <b>7.4</b> civarı, 7.35–7.45), <b>38 derece</b> sıcak, ağır akıyor (<b>yüksek viskozite</b>), tadı <b>metal</b> gibi, içi görünmüyor (<b>opak</b>), ele <b>yapışıyor</b>. Şehir bir <b>bağ dokusu</b> ve tüm vücudun <b>%8</b>'i kadar. Erkeklerin şehrinde <b>5–6 L</b>, kadınlarınkinde <b>4–5 L</b> su var. Şehrin üç mesleği var: <b>D</b>ağıtıcı, <b>D</b>üzenleyici, <b>K</b>oruyucu → <b>DDK</b>.</p>
+
+    <h3><span class="ch">1. SOKAK</span>💛 Sarı su: plazma</h3>
+    <p>Bir şişe kanı santrifüjde çevirince üstte <b>sarı su</b> (<b>plazma, %55</b>), dipte <b>kırmızı çamur</b> (<b>eritrositler</b>), ikisinin arasında ince <b>beyaz bir şerit</b> (<b>buffy coat</b>: lökositler ve trombositler) kalır. Şekilli elemanların payı <b>%45</b>. Sarı suyun <b>%90</b>'ı su. Suyun üstünde üç tekne var ve hepsini <b>karaciğer tersanesi</b> yapıyor:</p>
+    <p>🛳️ <b>Albüm</b> dev bir yük gemisi (<b>%60</b>). Yağ asidi, tiroid ve steroid taşır. Su tutan bir sünger gibidir: <b>ozmotik basıncı</b> ve <b>viskoziteyi</b> o sağlar. ⚔️ <b>Globulin</b> savaş gemisi (<b>%36</b>). İçinde <b>immünoglobulin</b> topları ve <b>taşıma globulinleri</b> var. 🔧 <b>Fibrinojen</b> küçük bir tamir sandalı (<b>%4</b>). Tamir sırasında <b>fibrine</b> dönüşür. <b>Tamir sandalı gidince geriye kalan suya SERUM denir.</b> "Abla Geldi Fırına: 60-36-4."</p>
+    <p>Suda yüzen başka şeyler de var (<b>ABE-GH</b>): <b>Atık</b> (laktik asit, üre, kreatinin, ürik asit, bilirubin), <b>Besin</b> (glikoz, amino asit, lipit, kolesterol), <b>Elektrolit</b> (Na, K, Ca, Mg, Cl, bikarbonat, fosfat, sülfat), <b>Gaz</b> (O₂, CO₂) ve proteine bağlı <b>Hormon</b>.</p>
+
+    <h3><span class="ch">2. SOKAK</span>❤️ Kırmızı kargo gemileri: eritrositler</h3>
+    <p>Nehirdeki gemilerin <b>%99,9</b>'u kırmızı kargo gemisi. Şekilleri <b>simit gibi</b> (bikonkav): yüzeyleri geniş, O₂'yi hızlı alıp verirler, bükülüp dar kanallara (kılcallara) girebilirler. <b>Motorları yok</b> (mitokondri, çekirdek, organel yok), <b>kürekle</b> giderler (anaerobik ATP). Kargocu kargoyu yemez, yani taşıdığı O₂'yi kendisi kullanmaz.</p>
+    <p>Her gemide <b>4 kamara</b> var (4 hem). Her kamarada <b>1 demir kaptan</b> ve <b>1 O₂ yolcu</b> var, gemi toplam <b>4 O₂</b> taşır. Geminin gövdesi <b>globin</b> (2α + 2β). Kontrol sayıları: Hb erkekte <b>14–18</b>, kadında <b>12–16</b> (kadında hep 2 aşağı). Gemi sayısı erkekte <b>4.5–6.3 milyon</b>, kadında <b>4.2–5.5 milyon</b>. Hematokrit erkekte <b>%47</b>, kadında <b>%42</b> (±5).</p>
+    <p>🏭 <b>Tersane</b> kırmızı kemik iliğinde: iskelet kemikleri, <b>humerus ve femur epifizleri</b>. Patronun adı <b>Hemositoblast</b>. İki bölümü var: <b>Miyeloid</b> bölüm (RBC ve bazı WBC'ler) ve <b>Lenfoid</b> bölüm (sadece lenfosit, L=L). Yakıt olarak <b>demir</b> lazım: <b>Transferrin taksisi</b> taşır, <b>ferritin ve hemosiderin depoları</b> saklar, demirin <b>%65</b>'i Hb'dedir. <b>B12 ve folik asit</b> de bölünme için gerekir.</p>
+    <p>♻️ <b>100–120 gün</b> seferden sonra gemi sertleşip kırılganlaşır ve <b>hurdalığa</b> gider (makrofaj, dalak, karaciğer). Gövdesi (globin) eritilip <b>amino aside</b> çevrilir, demir kaptan <b>geri döner</b>. Sarı boyası (<b>bilirubin</b>) safra borusundan bağırsağa akar, orada <b>ürobilinojen</b> olur ve sonunda <b>sterkobilin</b> olarak dışkıyla atılır (dışkının kahverengi rengi buradan gelir). Sıra: "<b>Bil-Ü-S</b>tad".</p>
+
+    <h3><span class="ch">3. SOKAK</span>💜 Askerler: lökositler</h3>
+    <p>Şehirde <b>4.000–11.000</b> asker var. <b>11.000</b>'i geçerse alarm çalar (<b>lökositoz</b>). Askerler <b>amip gibi</b> yürür ve duvarlardaki deliklerden sızarlar. İlikte doğar, <b>dalakta</b> ölürler. Karakoldaki yoklama sırası (çoktan aza): "<b>Nazlı Lale Masada Eski Bisküvi</b>".</p>
+    <p>👮 <b>Nötrofil</b> (%50–70): polis, en kalabalık grup, <b>bakteri avcısı</b>. Çok parçalı çekirdeği (PMN) ve defensin silahı var. 🪱 <b>Eozinofil</b> (%2–4): kırmızı granüllü <b>solucan avcısı</b>, aynı zamanda alerji itfaiyecisi (şiddeti azaltır). 🚨 <b>Bazofil</b> (%0,5–1): en nadir, mor-siyah <b>histamin sireni</b>. Antihistaminik onu susturur, mast hücresinin ikizidir. 🕵️ <b>Lenfosit</b> (%25+): istihbarat, üç ajanı var (<b>T, B, NK</b>). 🦖 <b>Monosit</b> (%3–8): en iri asker. Dokuya girince <b>makrofaj</b> çöp kamyonuna dönüşür. Granüllüler <b>NEB</b>, granülsüzler <b>LM</b>.</p>
+    <p>📻 Askerlere iki telsizden emir gelir: <b>IL</b>'ler numarayla anılır (IL-1, IL-2), <b>CSF</b>'ler isimle (granülosit-CSF). Telsizleri en çok <b>makrofajlar ve T hücreleri</b> kullanır.</p>
+
+    <h3><span class="ch">4. SOKAK</span>🏰 Kalenin üç suru: bağışıklık</h3>
+    <p><b>1. sur, dış duvar:</b> deri (keratin, pH 3–5 asit, sebum zehri), gözyaşı ve tükürükteki <b>lizozim</b>, midedeki <b>HCl</b> ve yapışkan <b>mukus</b>. <b>2. sur, bekçiler:</b> "<b>Fatma Nine Evde Ateşli Ağlıyor</b>" yani Fagosit, NK, Enflamasyon, Antimikrobiyal protein (interferon, kompleman), Ateş. Bu iki sur <b>doğuştan</b> gelir, <b>hızlı</b> ve <b>seçici olmayan</b> savunmadır. <b>3. sur, özel tim:</b> <b>adaptif</b>, yani özgü, sistemik ve hafızalı. Daha <b>geç</b> devreye girer.</p>
+    <p>🍽️ Fagosit yemek yer gibi çalışır: <b>Yapış, Yut, Birleş, Sindir, Tükür</b>. Yemeğe sos sürmek de <b>opsonizasyon</b>dur. 🔥 Yangın alarmı (<b>enflamasyon</b>) şöyle ilerler: "<b>Her Kız Pembe Kurdele Sever</b>" (Histamin, Kinin, Prostaglandin, Kompleman, Sitokin) damarı genişletir ve bölge kızarır (<b>hiperemi</b>). Ardından damar sızdırır (<b>eksüda</b>) ve şişlik ile ağrı başlar (<b>ödem</b>). Ödemin işi <b>S-O-P</b>: zararlıyı <b>S</b>eyreltmek, <b>O</b>ksijen getirmek, <b>P</b>ıhtı proteinini içeri sokmak. Sonra polis yola çıkar: "<b>Lütfen Masaya Dokunma Kızım</b>" yani İlikten çık (Lökositoz), duvara yapış (Marjinasyon), duvardan sız (Diapedez), kokuyu takip et (Kemotaksi).</p>
+    <p>🎯 Özel timin iki kolu var. <b>B okçuları</b> uzaktan ok atar, yani antikor (<b>humoral</b>): "<b>GAM DEğil</b>" diye sayılırlar. <b>T kılıççıları</b> yakın dövüşür (<b>hücresel</b>): <b>CD4</b> komutan (yardımcı), <b>CD8</b> suikastçi (öldürücü), <b>Treg</b> de herkesi frenleyen hakem. İlk savaş yavaş geçer (<b>3–6 gün</b> bekleme, <b>10. günde</b> zirve). İkinci savaşta hafıza devreye girer: <b>saatler</b> içinde başlar, <b>2–3 günde</b> dev bir zirve yapar.</p>
+
+    <h3><span class="ch">5. SOKAK</span>🩹 Tamirciler: trombositler</h3>
+    <p><b>Megakaryosit</b> dev bir kaya. Kırılan parçaları <b>trombosit</b> (<b>çekirdeksiz</b>). Kayanın büyüme sırası: <b>blast, promegakaryosit, megakaryosit, parçalar</b>. Sayıları <b>150–400 bin</b>, ömürleri sadece <b>5–9 gün</b>. Fabrikayı <b>trombopoietin</b> yönetir. Endotel onlara "<b>NO</b>" der (NO + prostasiklin), yani dolaşırken uyurlar. Çantalarında <b>SCEAP</b> var: Serotonin, Ca²⁺, Enzim, ADP, PDGF.</p>
+    <p>💥 Nehir duvarı delinince üç adım atılır: <b>Sık, Tıka, Bağla</b>. ① Damar <b>~30 dk</b> büzülür (yara, kimyasal, ağrı; endotel <b>endotelin</b> salar). ② Trombositler <b>vWF cırt cırtıyla</b> açıkta kalan <b>kolajene</b> yapışır, şişer, dikenlenir. <b>Serotonin ve TXA₂</b> çağırdıkça daha çok trombosit gelir; bu bir <b>POZİTİF geri bildirim</b> çığıdır. ③ <b>Fibrin ağı</b> örülür: önce <b>aktivatör</b> yapılır, sonra <b>protrombin trombine</b> döner, en sonda <b>fibrinojen fibrine</b> döner. Pıhtıya giden iki yol var. <b>Dış kapı "37"</b> (III + VII, doku hasarı) kısa yoldur. <b>İç yol 12, 11, 9, 8</b> (yüzey teması) uzun yoldur. İkisi <b>X</b>'te buluşur ve geri sayım başlar: <b>10, 5, 2, 1, 13</b>.</p>
+
+    <h3><span class="ch">6. SOKAK</span>🪪 Kimlik kartları: kan grupları</h3>
+    <p>Her kırmızı geminin üstünde bir <b>glikoprotein kimlik kartı</b> (antijen, <b>aglütinojen</b>) var. Plazmadaki polis (<b>aglütinin</b>, antikor) <b>kendinde olmayan</b> kartı arar: A grubunda anti-B, B grubunda anti-A bulunur. AB'de polis yoktur, O'da iki polis birden vardır. Bu polisler bebek yaklaşık <b>2 aylıkken</b> kendiliğinden ortaya çıkar. <b>Rh</b> kartı ise <b>D damgası</b>dır. Anti-Rh polisi <b>kendiliğinden doğmaz</b>; Rh– kişi Rh+ kan alınca yetişir ve <b>ikinci karşılaşmada</b> reaksiyon olur. Testte hangi serumda kümelenme oluyorsa o harf sende vardır, hiçbirinde olmuyorsa <b>O</b>'sun.</p>
+  </div>
+</section>
+
+<!-- ============ 1 ============ -->
+<section class="s" id="s1">
+  <div class="shead" style="background:var(--c1)"><span class="no">1</span><div><h2>Kan Nedir? İşlevleri</h2><small>Slayt 1–3</small></div><label><input type="checkbox" data-sec="1"> bitti ✓</label></div>
+  <div class="grid">
+    <div class="card" style="--k:var(--c1)"><span class="sl">S2</span>
+      <h3>Kan nedir? (8 özellik)</h3>
+      <ul>
+        <li><b>Bağ dokusudur</b></li>
+        <li>Hafif <b>alkali</b>: pH <span class="n">7.35–7.45</span></li>
+        <li>Renk: <b>parlak kırmızı ↔ koyu kırmızı</b> arası değişir</li>
+        <li><b>Metalik tat</b>, <b>yapışkan</b>, <b>opak</b> sıvı</li>
+        <li><b>Yüksek viskozite</b></li>
+        <li>Sıcaklık <span class="n">38 °C</span> ("normal" vücut ısısından biraz yüksek)</li>
+        <li>Vücut ağırlığının yaklaşık <span class="n">%8</span>'i</li>
+        <li>Hacim: Erkek <span class="n">5–6 L</span> · Kadın <span class="n">4–5 L</span></li>
+      </ul>
+      <div class="code"><b class="big">"8-38-7.4"</b> → Kan vücudun <b>%8</b>'i, <b>38</b> derece, pH ≈ <b>7.4</b>. Erkek bir şişe fazla: E 5–6, K 4–5 L.</div>
+    </div>
+    <div class="card" style="--k:var(--c1)"><span class="sl">S3</span>
+      <h3>İşlevleri = <span style="font-size:22px">DDK</span></h3>
+      <h4>1. Dağıtım 🚚</h4>
+      <ul><li>O₂ ve besinler (dokulara)</li><li>CO₂ ve metabolik atıkların atılması</li><li>Endokrin bezlerden hedef organlara hormonlar</li></ul>
+      <h4>2. Düzenleme 🌡️</h4>
+      <ul><li>Isıyı dağıtarak <b>vücut ısısı</b></li><li><b>Tampon sistemleri</b> ile dokularda normal <b>pH</b></li><li>Dolaşımda yeterli <b>sıvı hacmi</b></li></ul>
+      <h4>3. Koruma 🛡️</h4>
+      <ul><li>Plazma proteinleri ve trombositlerin aktive edilmesi</li><li>Damar yaralanınca <b>pıhtı oluşumunu başlatma</b></li><li><b>Antikor</b> sentezi ve kullanımı</li><li><b>Kompleman</b> proteinlerinin aktivasyonu</li><li>Yabancı istilacılara karşı <b>lökositleri</b> aktive etme</li></ul>
+      <div class="code"><b class="big">DDK</b> = <b>D</b>ağıt · <b>D</b>üzenle · <b>K</b>oru. Dağıtımda 3 şey (gaz-atık-hormon), Düzenlemede 3 şey (Isı-pH-Hacim = "<b>IPH</b>"), Korumada 5 şey (pıhtı ikilisi + antikor + kompleman + lökosit).</div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 2 ============ -->
+<section class="s" id="s2">
+  <div class="shead" style="background:var(--c2)"><span class="no">2</span><div><h2>Bileşim · Plazma · Serum</h2><small>Slayt 4–9</small></div><label><input type="checkbox" data-sec="2"> bitti ✓</label></div>
+  <div class="grid">
+    <div class="card wide" style="--k:var(--c2)"><span class="sl">S4 · S7</span>
+      <h3>Kanın bileşimi — santrifüj tüpünü gözünde canlandır 🧪</h3>
+      <div class="bar"><div style="width:55%;background:#e0a526">PLAZMA %55 (üstte, sarı)</div><div style="width:4%;background:#cfcfcf;color:#333" title="Buffy coat">▮</div><div style="width:41%;background:#b91c1c">ERİTROSİT %45 (dipte)</div></div>
+      <p class="note">Ortadaki ince beyaz şerit = <b>buffy coat</b>: lökositler + trombositler.</p>
+      <div class="tree" style="--k:var(--c2)"><ul><li><span class="tag">KAN</span>
+        <ul><li><b>1. Plazma (%55)</b></li>
+            <li><b>2. Şekilli elemanlar (%45)</b>
+              <ul><li>Eritrositler — kırmızı kan hücreleri (<b>RBC</b>)</li><li>Lökositler — beyaz kan hücreleri (<b>WBC</b>)</li><li>Trombositler — plateletler (<b>PLT</b>)</li></ul></li></ul></li></ul></div>
+      <p class="note">S4 mikroskop görüntüsünde: monosit, nötrofil, lenfosit, eritrositler, trombositler işaretli.</p>
+    </div>
+    <div class="card" style="--k:var(--c2)"><span class="sl">S5–6</span>
+      <h3>Plazma 🆚 Serum</h3>
+      <div class="tw"><table>
+        <tr><th></th><th>PLAZMA</th><th>SERUM</th></tr>
+        <tr><td>Antikoagülan?</td><td><b>EKLENİR</b> (pıhtılaşmayı önler)</td><td><b>EKLENMEZ</b></td></tr>
+        <tr><td>Kan ne olur?</td><td>Pıhtılaşmaz</td><td>Pıhtılaşmasına <b>izin verilir</b></td></tr>
+        <tr><td>Nasıl ayrılır?</td><td><b>Santrifüj</b>: ağır hücreler dibe, hafif plazma üste</td><td>Pıhtı tüpün dibine çöker, serum üstte kalır</td></tr>
+        <tr><td>Fibrinojen?</td><td>VAR</td><td><b>YOK</b> (pıhtıda kaldı)</td></tr>
+      </table></div>
+      <div class="code"><b class="big">Serum = Plazma − Fibrinojen</b><br>"<b>S</b>erum <b>S</b>öktü pıhtıyı" → pıhtılaşma proteinleri ayrılmış plazma.</div>
+    </div>
+    <div class="card" style="--k:var(--c2)"><span class="sl">S7 · S9</span>
+      <h3>Plazmanın içinde ne var?</h3>
+      <ul><li><b>Su</b> <span class="n">%90</span></li><li>Çözünmüş <b>plazma proteinleri</b></li><li><b>Diğer çözünen maddeler</b> (5 grup ↓)</li></ul>
+      <h4>Diğer çözünenler <span class="sl">S9</span></h4>
+      <ul>
+        <li><b>Azotlu metabolizma yan ürünleri:</b> laktik asit, üre, kreatinin, ürik asit, bilirubin</li>
+        <li><b>Besinler:</b> glikoz, amino asitler, lipitler, kolesterol</li>
+        <li><b>Elektrolitler:</b> Na, K, Ca, Mg, klorür, bikarbonat, fosfat, sülfat</li>
+        <li><b>Solunum gazları:</b> O₂ ve CO₂</li>
+        <li><b>Proteine bağlı hormonlar</b></li>
+      </ul>
+      <div class="code"><b class="big">"ABE-GH"</b> = <b>A</b>tık(azotlu) · <b>B</b>esin · <b>E</b>lektrolit · <b>G</b>az · <b>H</b>ormon<br>Atıklar: "<b>Lak-Ür-Kre-Ürik-Bili</b>" (laktik, üre, kreatinin, ürik asit, bilirubin)</div>
+    </div>
+    <div class="card wide" style="--k:var(--c2)"><span class="sl">S8</span>
+      <h3>Plazma proteinleri — çoğunlukla <u>KARACİĞER</u> üretir</h3>
+      <div class="bar"><div style="width:60%;background:#d97706">ALBÜMİN %60</div><div style="width:36%;background:#92400e">GLOBULİN %36</div><div style="width:4%;background:#451a03" title="Fibrinojen %4">4</div></div>
+      <div class="cells">
+        <div class="cell" style="--k:#d97706"><h4>Albümin</h4><div class="pc">%60</div><ul><li><b>Taşıma</b>: yağ asitleri, tiroid hormonları, steroid hormonları</li><li>Kanın <b>viskozitesi</b> ve <b>ozmotik basıncından</b> sorumlu</li></ul></div>
+        <div class="cell" style="--k:#92400e"><h4>Globulinler</h4><div class="pc">%36</div><ul><li>Yabancı proteinlere ve patojenlere saldıran <b>immünoglobulinler</b></li><li>İyon, hormon ve diğer bileşikleri bağlayan <b>taşıma globulinleri</b></li></ul></div>
+        <div class="cell" style="--k:#451a03"><h4>Fibrinojen</h4><div class="pc">%4</div><ul><li>Pıhtılaşmada <b>fibrine</b> dönüştürülür</li><li>Fibrinojen çıkarılınca geriye <b>serum</b> kalır</li></ul></div>
+      </div>
+      <div class="code"><b class="big">"A-G-F : 60-36-4"</b> → "<b>A</b>bla <b>G</b>eldi <b>F</b>ırına". Albümin = <b>Ozmotik basınç + viskozite + taşıyıcı</b> (albümin "su tutan sünger"). Globulin = <b>Bağışıklık + taşıma</b>. Fibrinojen = <b>Pıhtı</b>.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 3 ============ -->
+<section class="s" id="s3">
+  <div class="shead" style="background:var(--c3)"><span class="no">3</span><div><h2>Eritrositler (RBC) · Hemoglobin</h2><small>Slayt 10–15 · "Kargocu"</small></div><label><input type="checkbox" data-sec="3"> bitti ✓</label></div>
+  <div class="grid">
+    <div class="card" style="--k:var(--c3)"><span class="sl">S10–11</span>
+      <h3>RBC kimlik kartı 🪪</h3>
+      <ul>
+        <li>Kanı oluşturan hücrelerin <span class="n">%99,9</span>'u</li>
+        <li><b>Bikonkav disk</b>: ortada ince, kenarda kalın</li>
+        <li>Çap: <span class="n">7–8</span> <span class="note">(slaytta "mm" yazıyor; gerçek birim µm — mikrometre)</span></li>
+        <li><b>Çekirdek yok</b>, esasen <b>organel yok</b></li>
+        <li><b>Mitokondri yok</b> → ATP üretimi <b>anaerobik</b>; ATP üretiminde O₂ kullanılmaz</li>
+        <li>O₂ taşımak için <b>hemoglobin (Hb)</b> içerir</li>
+        <li>Ana işlev: <b>gaz değişimi</b> — O₂ dokulara, CO₂ akciğerlere</li>
+      </ul>
+      <h4>Bikonkav şeklin 3 avantajı <span class="sl">S11</span></h4>
+      <ul><li>Geniş <b>yüzey/hacim oranı</b></li><li>O₂'yi <b>hızla emer ve bırakır</b></li><li><b>Bükülüp esneyerek</b> küçük kılcallara girer</li></ul>
+      <div class="code">"<b>Kargocu kargoyu yemez</b>": taşıdığı O₂'yi kendisi kullanmaz → mitokondrisi yok, anaerobik. Simit gibi çukur → yüzey geniş, esnek.</div>
+    </div>
+    <div class="card" style="--k:var(--c3)"><span class="sl">S11–12</span>
+      <h3>Sayılar (E &gt; K)</h3>
+      <div class="tw"><table>
+        <tr><th></th><th>Erkek</th><th>Kadın</th></tr>
+        <tr><td><b>RBC sayısı</b> (1 ml tam kanda*)</td><td><span class="n">4.5–6.3 milyon</span></td><td><span class="n">4.2–5.5 milyon</span></td></tr>
+        <tr><td><b>Hematokrit (HTC)</b></td><td><span class="n">%47 ± 5</span></td><td><span class="n">%42 ± 5</span></td></tr>
+        <tr><td><b>Hb</b> (g/dL tam kan)</td><td><span class="n">14–18</span></td><td><span class="n">12–16</span></td></tr>
+      </table></div>
+      <p class="note">* Slayttaki ifade "1 ml tam kan". Hematokrit = santrifüjlenmiş tam kandaki <b>eritrositlerin yüzdesi</b>.</p>
+      <div class="code">Hb: Erkek <b>14–18</b>, Kadın <b>12–16</b> → kadın hep "<b>2 aşağı</b>". HTC: <b>47</b> ve <b>42</b> → aradaki fark <b>5</b>, sapma da <b>±5</b>.</div>
+    </div>
+    <div class="card" style="--k:var(--c3)"><span class="sl">S12</span>
+      <h3>Hemoglobin 🧲</h3>
+      <ul>
+        <li>Solunum gazlarını taşıyan <b>protein</b> molekülü</li>
+        <li>O₂ ile <b>geri dönüşümlü</b> bağlanır; kandaki O₂'nin çoğu Hb'ye bağlı</li>
+        <li><b>Globin</b> (<b>2 α + 2 β</b> polipeptit zinciri) + <b>4 hem</b> grubu</li>
+        <li>Her hem <b>1 demir</b> atomu içerir → <b>1 O₂</b> bağlar</li>
+        <li>Her Hb molekülü <span class="n">4 O₂</span> taşır</li>
+      </ul>
+      <div class="code"><b class="big">"Hep 4"</b>: 4 zincir (2α2β) · 4 hem · 4 demir · 4 O₂.</div>
+    </div>
+    <div class="card" style="--k:var(--c3)"><span class="sl">S13</span>
+      <h3>Üretim — Hematopoez 🏭</h3>
+      <ul>
+        <li><b>Hematopoez</b> = kan hücresi oluşumu</li>
+        <li><b>Hemositoblast</b> = hematopoetik kök hücre</li>
+        <li>Yer: <b>kırmızı kemik iliği</b> → iskelet kemikleri; <b>humerus</b> ve <b>uyluk kemiği (femur) epifizleri</b></li>
+        <li>Hemositoblast bölünür:
+          <ul><li><b>Miyeloid</b> kök hücre → RBC'ler + bazı WBC'ler</li><li><b>Lenfoid</b> kök hücre → lenfosit</li></ul></li>
+        <li><b>Hormonlar ve büyüme faktörleri</b> hücreyi belirli bir gelişim yoluna iter</li>
+      </ul>
+      <div class="code"><b>L</b>enfoid → <b>L</b>enfosit (aynı harf!). Geri kalan herkes <b>Miyeloid</b>.</div>
+    </div>
+    <div class="card" style="--k:var(--c3)"><span class="sl">S14</span>
+      <h3>Eritropoez için diyet 🍽️</h3>
+      <ul>
+        <li><b>Besinler</b>: protein, lipit, karbonhidrat</li>
+        <li><b>Demir</b>:
+          <ul><li><span class="n">%65</span>'i <b>Hb</b>'de; ayrıca karaciğer, dalak ve kemik iliğinde depolanır</li>
+          <li>Hücrelerde <b>ferritin</b> ve <b>hemosiderin</b> olarak depolanır</li>
+          <li>Kanda <b>transferrine</b> gevşek bağlı taşınır</li></ul></li>
+        <li><b>B12 vitamini</b> ve <b>folik asit</b>: hücre bölünmesi için</li>
+      </ul>
+      <div class="code">Demir: "<b>T</b>ransferrin = <b>T</b>aşır (Taksi)" · "<b>F</b>erritin + <b>H</b>emosiderin = <b>Depo</b> (Fırın-Hazine)". B12 + Folik = <b>bölünme</b>.</div>
+    </div>
+    <div class="card wide" style="--k:var(--c3)"><span class="sl">S15</span>
+      <h3>Eritrosit yıkımı — Ömür <span class="n">100–120 gün</span> ⏳</h3>
+      <p>Eski RBC <b>sert ve kırılgan</b> olur, Hb dejenere olmaya başlar → <b>makrofajlar, dalak ve karaciğer</b> yutar → Hb ikiye ayrılır:</p>
+      <div class="tree" style="--k:var(--c3)"><ul><li><span class="tag" style="background:var(--c3)">HEMOGLOBİN</span>
+        <ul>
+          <li><b>GLOBİN</b> → amino asitlere metabolize → <b>dolaşıma salınır</b> ♻️</li>
+          <li><b>HEM</b>
+            <ul><li><b>Demir</b> → <b>geri dönüştürülür</b> ♻️</li>
+                <li>Kalan → <b>bilirubin</b> (sarı pigment)
+                  <div class="flow" style="--k:#b45309">
+                    <div class="st"><b>Bilirubin</b>karaciğer safra ile bağırsağa salgılar</div><div class="ar">→</div>
+                    <div class="st"><b>Ürobilinojen</b>bağırsakta metabolize</div><div class="ar">→</div>
+                    <div class="st"><b>Sterkobilin</b>dışkıyla atılır 💩</div>
+                  </div></li></ul></li>
+        </ul></li></ul></div>
+      <div class="code"><b class="big">"Bili → Üro → Sterko"</b> = "<b>Bil Ü S</b>tad" → <b>Bil</b>irubin (safra) → <b>Ü</b>robilinojen (bağırsak) → <b>S</b>terkobilin (dışkı). Dışkının rengi sterkobilinden.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 4 ============ -->
+<section class="s" id="s4">
+  <div class="shead" style="background:var(--c4)"><span class="no">4</span><div><h2>Lökositler (WBC)</h2><small>Slayt 16–23 · "Askerler"</small></div><label><input type="checkbox" data-sec="4"> bitti ✓</label></div>
+  <div class="grid">
+    <div class="card" style="--k:var(--c4)"><span class="sl">S16</span>
+      <h3>WBC genel</h3>
+      <ul>
+        <li><b>Tam hücre</b> olan kan bileşenleri (çekirdekli!)</li>
+        <li>Toplam: <span class="n">4.000–11.000 / mm³</span></li>
+        <li><b>Ameboid hareket</b> → kılcal duvar gözeneklerinden çıkıp enfeksiyon bölgesine gider</li>
+        <li><b>Lökositoz</b>: <span class="n">&gt; 11.000 / mm³</span> → bakteriyel/viral istilaya yanıt</li>
+        <li>Üretim: <b>kemik iliği</b> · Yıkım: <b>dalak</b></li>
+        <li>2 ana tür: <b>Granülositler</b> ve <b>Agranülositler</b></li>
+      </ul>
+    </div>
+    <div class="card" style="--k:var(--c4)">
+      <h3>🧠 Bolluk sırası (çoktan aza)</h3>
+      <div class="code"><b class="big">"Nazlı Lale Masada Eski Bisküvi"</b><br>
+      <b>N</b>ötrofil %50–70 · <b>L</b>enfosit %25+ · <b>M</b>onosit %3–8 · <b>E</b>ozinofil %2–4 · <b>B</b>azofil %0,5–1</div>
+      <div class="code">Granülosit = <b class="big">NEB</b> (Nötrofil, Eozinofil, Bazofil) — "<b>Neb</b>ze granül"<br>Agranülosit = <b class="big">LM</b> (Lenfosit, Monosit) — "<b>L</b>imon <b>M</b>uz, granülsüz"</div>
+    </div>
+    <div class="card" style="--k:var(--c4)"><span class="sl">S17</span>
+      <h3>Granülositlerin ortak 4 özelliği</h3>
+      <ul><li>Nötrofil, eozinofil, bazofil</li><li>RBC'den <b>daha büyük</b>, genelde <b>daha kısa ömürlü</b></li><li><b>Loblu çekirdek</b></li><li><b>Fagositik</b></li></ul>
+      <h3 style="margin-top:10px">Agranülositlerin ortak özelliği <span class="sl">S19</span></h3>
+      <ul><li>Lenfosit ve monosit</li><li><b>Yapısal olarak benzer</b>, ama <b>işlevsel olarak farklı ve ilgisiz</b></li><li>Çekirdek: <b>küre</b> (lenfosit, büyük küre) / <b>böbrek şekli</b> (monosit)</li></ul>
+    </div>
+  </div>
+
+  <div class="cells" style="margin-top:12px">
+    <div class="cell" style="--k:#8b5cf6"><span class="sl">S18</span><h4>Nötrofil</h4><div class="pc">%50–70</div><ul>
+      <li><b>En çok</b> sayıda</li><li><b>PMN</b> (polimorfonükleer); çok loblu çekirdek</li><li><b>Peroksidaz, hidrolitik enzimler, defensinler</b> (antibiyotik benzeri)</li><li><b>Bakteri avcısı</b> (çok fagositik)</li></ul></div>
+    <div class="cell" style="--k:#e11d48"><span class="sl">S18</span><h4>Eozinofil</h4><div class="pc">%2–4</div><ul>
+      <li>İki loblu çekirdek, <b>kırmızı</b> granüller</li><li>Fagosite edilemeyecek kadar büyük <b>parazit ve solucanları</b> sindiren enzimler</li><li><b>Bağışıklık tepkisi düzenleyicisi</b></li><li>İmmün kompleksleri fagosite ederek <b>alerji şiddetini azaltır</b></li></ul></div>
+    <div class="cell" style="--k:#4c1d95"><span class="sl">S18</span><h4>Bazofil</h4><div class="pc">%0,5–1</div><ul>
+      <li><b>En nadir</b></li><li>İki loblu, <b>mor-siyah</b> granüller</li><li><b>Histamin</b> içerir: vazodilatör + diğer WBC'leri iltihaplı bölgeye çeker (inflamatuar kimyasal)</li><li><b>Antihistaminikler</b> bu etkiye karşı etkili</li><li>İşlevce <b>mast hücresine benzer</b></li></ul></div>
+    <div class="cell" style="--k:#0891b2"><span class="sl">S20</span><h4>Lenfosit</h4><div class="pc">%25+</div><ul>
+      <li>Çoğu <b>lenfoid dokuda</b>, çok azı kanda</li><li><b>Bağışıklık için çok önemli</b></li><li><b>T</b>: hücresel bağışıklık; virüslü ve tümör hücrelerine <b>doğrudan</b> etki</li><li><b>B</b>: humoral bağışıklık; <b>antikor üreten plazma hücreleri</b></li><li><b>NK</b>: anormal doku ve kanserleşmiş hücreleri tespit edip yok eder</li></ul></div>
+    <div class="cell" style="--k:#0d9488"><span class="sl">S21</span><h4>Monosit</h4><div class="pc">%3–8</div><ul>
+      <li><b>En büyük</b> lökosit; böbrek şekilli çekirdek</li><li>Dolaşımdan çıkar, dokuya girer → <b>MAKROFAJ</b> olur</li><li>Makrofaj: çok hareketli, aktif fagosit; <b>virüs, hücre içi bakteri, parazit, kronik enfeksiyon</b>a karşı çok önemli</li><li>Bağışıklık tepkisi için <b>lenfositleri aktive eder</b></li></ul></div>
+  </div>
+  <div class="code">Kişilik kartları: <b>Nötrofil</b> = ilk koşan bakteri avcısı polis 👮 · <b>Eozinofil</b> = solucan/parazit + alerji söndürücü 🪱 · <b>Bazofil</b> = histamin alarmı 🚨 · <b>Lenfosit</b> = istihbarat (T-B-NK) 🕵️ · <b>Monosit</b> = en iri, dokuda makrofaja dönüşen çöpçü 🦖</div>
+  <div class="warn">"En büyük lökosit" = <b>Monosit</b>; "en çok" = <b>Nötrofil</b>; "en nadir" = <b>Bazofil</b>.</div>
+
+  <div class="grid" style="margin-top:12px">
+    <div class="card" style="--k:var(--c4)"><span class="sl">S22</span>
+      <h3>Lökopoez — kim uyarır?</h3>
+      <p>İki <b>sitokin</b> ailesi (hematopoietik faktörler):</p>
+      <ul><li><b>1. İnterlökinler (IL)</b> → <b>numaralı</b> (IL-1, IL-2…)</li><li><b>2. Koloni uyarıcı faktörler (CSF)</b> → uyardıkları hücreye göre <b>adlandırılır</b> (granülosit-CSF → granülositleri uyarır)</li></ul>
+      <p>Sitokinlerin en önemli kaynakları: <b>makrofajlar</b> ve <b>T hücreleri</b>.</p>
+      <div class="code"><b>IL</b> = <b>I</b>sim yok, numara var · <b>CSF</b> = <b>C</b>ins ismiyle anılır.</div>
+    </div>
+    <div class="card" style="--k:var(--c4)"><span class="sl">S23</span>
+      <h3>Lökopoez soy ağacı 🌳</h3>
+      <div class="tree" style="--k:var(--c4)"><ul><li><span class="tag">Hemositoblast</span> (tüm lökositlerin kökeni)
+        <ul>
+          <li><b>Miyeloid kök hücre</b>
+            <ul><li>Miyeloblast → <b>Eozinofil, Nötrofil, Bazofil</b></li><li>Monoblast → <b>Monosit</b></li></ul></li>
+          <li><b>Lenfoid kök hücre</b>
+            <ul><li>Lenfoblast → <b>Lenfosit</b></li></ul></li>
+        </ul></li></ul></div>
+      <div class="code">Her "-blast" kendi adını söyler: <b>Mono</b>blast→<b>Mono</b>sit, <b>Lenfo</b>blast→<b>Lenfo</b>sit. Tek istisna <b>Miyelo</b>blast → granülositlerin hepsi (NEB).</div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 5 ============ -->
+<section class="s" id="s5">
+  <div class="shead" style="background:var(--c5)"><span class="no">5</span><div><h2>Bağışıklık Sistemi</h2><small>Slayt 24–46 · en uzun bölüm</small></div><label><input type="checkbox" data-sec="5"> bitti ✓</label></div>
+  <div class="grid">
+    <div class="card" style="--k:var(--c5)"><span class="sl">S24–25</span>
+      <h3>Görev + 3 bileşen</h3>
+      <ul><li>Yabancı ve anormal hücrelere karşı korur, <b>hücresel kalıntıları temizler</b></li><li>Ana hedefler: <b>patojenik bakteri ve virüsler</b></li><li>= <b>ORGANLAR + HÜCRELER + DOLAŞIMDAKİ PROTEİNLER</b> ağı</li></ul>
+      <div class="tw"><table>
+        <tr><th>Organlar</th><th>Hücreler</th><th>Proteinler</th></tr>
+        <tr><td>Kemik iliği<br>Timus<br>Dalak<br>Lenf düğümleri<br>MALT: bağırsak ve hava yollarını kaplayan epitelle ilişkili lenfoid doku</td><td>1. Lökositler<br>2. Mast hücreleri<br>3. Yardımcı hücreler (birçok organdaki fagositik hücreler)</td><td>1. Antikorlar<br>2. Komplemanlar</td></tr>
+      </table></div>
+      <div class="code">Organlar "<b>KTDL+M</b>" → "<b>K</b>ral <b>T</b>imur <b>D</b>alağa <b>L</b>enf <b>M</b>alt etti" (Kemik iliği, Timus, Dalak, Lenf düğümü, MALT)</div>
+    </div>
+    <div class="card" style="--k:var(--c5)"><span class="sl">S26–28</span>
+      <h3>İki savunma sistemi · Üç hat 🏰</h3>
+      <div class="flow v" style="--k:var(--c5)">
+        <div class="st"><b>1. HAT — Yüzey bariyerleri</b>Sağlam <b>deri + mukoza</b> mikroorganizma girişini engeller</div>
+        <div class="ar">↓</div>
+        <div class="st"><b>2. HAT — İç savunmalar</b>Antimikrobiyal proteinler (interferon, kompleman), fagositler, diğer hücreler · istilacının yayılmasını engeller · <b>en önemli mekanizma: Enflamasyon</b></div>
+        <div class="ar">↓</div>
+        <div class="st" style="--k:#0e7490"><b>3. HAT — Adaptif (spesifik)</b>Belirli yabancı maddelere saldırı (hücresel + humoral) · <b>daha geç</b> tepki · doğuştan sistemle <b>birlikte</b> çalışır</div>
+      </div>
+      <p><b>1+2. hat = Doğuştan</b> (spesifik olmayan, doğal) → <b>hızlı</b>. <b>3. hat = Adaptif</b> (spesifik).</p>
+      <div class="code">Kale benzetmesi: <b>Sur</b> (deri) → <b>Bekçiler</b> (fagosit, ateş, iltihap) → <b>Özel tim</b> (B ve T).</div>
+    </div>
+  </div>
+
+  <h3 style="color:var(--c5);margin:22px 0 8px">🛡️ A) DOĞUŞTAN (SPESİFİK OLMAYAN) SAVUNMA <span class="sl">S29</span></h3>
+  <div class="card" style="--k:var(--c5)">
+    <p>Herhangi bir yabancı/anormal materyale karşı <b>seçici olmayan</b> doğal tepkiler. Suçlu ajanla <b>daha önce deneyim olsun olmasın</b> devreye girer.</p>
+    <div class="tw"><table>
+      <tr><th>Yüzey bariyerleri (1. hat)</th><th>İç savunmalar (2. hat) — 5 tane</th></tr>
+      <tr><td>Deri · Mukoza</td><td>1. Fagositler · 2. NK hücreleri · 3. Enflamasyon · 4. Antimikrobiyal proteinler · 5. Ateş</td></tr>
+    </table></div>
+    <div class="code">İç savunma 5'li: <b class="big">"FNEAA"</b> → "<b>F</b>atma <b>N</b>ine <b>E</b>vde <b>A</b>teşli <b>A</b>ğlıyor" = <b>F</b>agosit · <b>N</b>K · <b>E</b>nflamasyon · <b>A</b>ntimikrobiyal protein · <b>A</b>teş</div>
+  </div>
+
+  <div class="grid" style="margin-top:12px">
+    <div class="card" style="--k:var(--c5)"><span class="sl">S30</span>
+      <h3>1. hat: Yüzey bariyerleri (6 madde)</h3>
+      <ul>
+        <li>Deride <b>keratin</b> → fiziksel bariyer</li>
+        <li>Deri <b>asitliği pH 3–5</b> → bakteri üremesini engeller</li>
+        <li><b>Sebum</b> → bakterilere toksik kimyasallar</li>
+        <li><b>Mide mukozası</b> → konsantre <b>HCl</b> + protein sindiren enzimler</li>
+        <li><b>Tükürük ve gözyaşı (lakrimal sıvı)</b> → <b>lizozim</b></li>
+        <li><b>Mukus</b> → sindirim ve solunum sistemine giren mikropları hapseder</li>
+      </ul>
+      <div class="code">Baştan aşağı vücut turu: <b>Deri</b> (keratin-asit-sebum) → <b>Göz-ağız</b> (lizozim) → <b>Mide</b> (HCl) → <b>Mukus</b> (yapışkan tuzak).</div>
+    </div>
+    <div class="card" style="--k:var(--c5)"><span class="sl">S31</span>
+      <h3>2. hat: İç savunmalar</h3>
+      <p>Vücut <b>spesifik olmayan hücresel ve kimyasal</b> maddeler kullanır:</p>
+      <ul><li>Fagositler</li><li>Doğal öldürücü (NK) hücreler</li><li>İnflamatuar yanıt (makrofajlar, mast hücreleri, lökositler, inflamatuar kimyasallar)</li><li>Kan ve doku sıvısındaki antimikrobiyal proteinler (interferonlar, kompleman)</li><li>Ateş</li></ul>
+    </div>
+    <div class="card" style="--k:var(--c5)"><span class="sl">S32</span>
+      <h3>① Fagositler</h3>
+      <ul>
+        <li><b>Makrofajlar</b> = monositlerden gelişen başlıca fagositler
+          <ul><li><b>Serbest</b> makrofaj → doku boşluklarında dolaşır (ör. <b>alveolar makrofaj</b>)</li><li><b>Sabit</b> makrofaj → organların daimi sakini: <b>Kupffer</b> (karaciğer), <b>mikroglia</b> (beyin)</li></ul></li>
+        <li><b>Nötrofiller</b> → bulaşıcı materyalle karşılaşınca fagositik olur</li>
+        <li><b>Eozinofiller</b> → parazitik solucanlara karşı <b>zayıf</b> fagositik</li>
+        <li><b>Mast hücreleri</b> → çok çeşitli bakterileri bağlar ve yutar</li>
+      </ul>
+      <div class="code"><b>S</b>erbest = <b>S</b>olunum (alveol) · Sabit = "<b>K</b>araciğerde <b>K</b>upffer, <b>M</b>ağzımızın üstünde (beyin) <b>M</b>ikroglia"</div>
+    </div>
+    <div class="card" style="--k:var(--c5)"><span class="sl">S33</span>
+      <h3>Fagositoz mekanizması (5 adım)</h3>
+      <div class="flow v" style="--k:var(--c5)">
+        <div class="st"><b>1. Yapışma</b>Fagosit patojene yapışır; <b>opsonizasyon</b> kolaylaştırır = patojenin <b>kompleman veya antikorla</b> kaplanması</div><div class="ar">↓</div>
+        <div class="st"><b>2. Yutma</b><b>Yalancı bacaklar</b> parçacığı (antijen) yutar → fagozom</div><div class="ar">↓</div>
+        <div class="st"><b>3. Birleşme</b>Fagozom + <b>lizozom</b> = <b>fagolizozom</b></div><div class="ar">↓</div>
+        <div class="st"><b>4. Sindirim</b>İçindekiler <b>proteolitik enzimlerle</b> sindirilir</div><div class="ar">↓</div>
+        <div class="st"><b>5. Atma</b>Sindirilemeyen kalıntı <b>ekzositoz</b> ile uzaklaştırılır</div>
+      </div>
+      <div class="code"><b class="big">"Yapış-Yut-Birleş-Sindir-Tükür"</b> — tıpkı yemek yemek. Opsonizasyon = yemeğe <b>sos</b> sürmek (kompleman/antikor), daha kolay yutulur.</div>
+    </div>
+    <div class="card" style="--k:var(--c5)"><span class="sl">S34</span>
+      <h3>② NK (doğal öldürücü) hücreler</h3>
+      <ul>
+        <li><b>Büyük, granüler lenfositler</b></li>
+        <li>Virüslü hücreleri <b>modifiye hücre yüzey belirteçlerinden</b> tanır</li>
+        <li>Hedefi tanıyınca aktive olur; <b>çekirdek ile hedef hücre arasına</b> spesifik granüller konumlandırır</li>
+        <li>Granül içeriği <b>ekzositozla</b> hedefe salınır → hedef hücre <b>apoptoz</b> (programlanmış ölüm) geçirir → <b>viral replikasyon önlenir</b></li>
+        <li>Virüslü ve <b>kanser</b> hücrelerine karşı <b>anında, spesifik olmayan</b> savunma</li>
+      </ul>
+      <div class="warn">NK bir <b>lenfosittir</b> ama <b>doğuştan (spesifik olmayan)</b> savunmada yer alır! Öldürme şekli: <b>apoptoz</b> yaptırmak.</div>
+    </div>
+    <div class="card" style="--k:var(--c5)"><span class="sl">S39</span>
+      <h3>④ Antimikrobiyal proteinler</h3>
+      <ul><li>En önemlileri: <b>interferonlar (IFN)</b> ve <b>kompleman proteinleri</b></li><li>Mikroorganizmalara <b>doğrudan saldırır</b></li><li>Mikroorganizmaların <b>üreme yeteneğini engeller</b></li></ul>
+    </div>
+    <div class="card" style="--k:var(--c5)"><span class="sl">S40</span>
+      <h3>⑤ Ateş 🔥</h3>
+      <ul>
+        <li>İstilacı mikroorganizmalara yanıt olarak <b>anormal yüksek vücut ısısı</b></li>
+        <li>Bakteri/yabancı maddeye maruz kalan <b>lökositler ve makrofajlar → pirojen</b> salgılar</li>
+        <li>Pirojenler vücudun <b>termostatını yukarı sıfırlar</b></li>
+        <li><b>Yüksek ateş tehlikeli</b>: ısı proteinleri ve enzimleri <b>denatüre</b> eder</li>
+        <li><b>Orta ateş faydalı</b>:
+          <ul><li>Karaciğer ve dalak <b>demir ve çinkoyu tutar</b> (mikroorganizmaların ihtiyacı) → mikropları aç bırakır</li><li><b>Metabolik hızı artırır</b> → doku onarımı hızlanır</li></ul></li>
+      </ul>
+      <div class="code"><b>Pirojen</b> = "<b>Pir</b>(ateş) + <b>jen</b>(yapan)". Orta ateş: "Mikrobun <b>Demir-Çinko</b> tabağını kaldır + tamiri <b>hızlandır</b>".</div>
+    </div>
+  </div>
+
+  <div class="card" style="--k:var(--c5);margin-top:12px"><span class="sl">S35–38</span>
+    <h3>③ Enflamasyon: yaralanmaya doku tepkisi 🔥🩹</h3>
+    <div class="grid">
+      <div>
+        <h4>Ne zaman / ne işe yarar? (S35)</h4>
+        <ul><li>Doku <b>yaralandığında veya enfekte</b> olduğunda tetiklenir</li><li>Zararlı ajanların <b>yakın dokulara yayılmasını önler</b></li><li>Hücre kalıntılarını ve patojenleri <b>bertaraf eder</b></li><li><b>Onarımı hazırlar</b></li><li>Hücre dışı sıvıya salınan bir <b>enflamatuar kimyasal</b> ile başlar</li></ul>
+        <h4>Mediatörler — "HKPKS"</h4>
+        <p><b>Histamin, Kininler, Prostaglandinler (PG), Kompleman, Sitokinler</b> → yaralı doku, fagositler, lenfositler, bazofiller ve mast hücrelerinden salınır → lokal küçük damarlar genişler → <b>HİPEREMİ</b> (kızarıklık)</p>
+        <div class="code">"<b>H</b>er <b>K</b>ız <b>P</b>embe <b>K</b>urdele <b>S</b>ever" = Histamin, Kinin, Prostaglandin, Kompleman, Sitokin</div>
+      </div>
+      <div>
+        <h4>Vasküler geçirgenlik (S36)</h4>
+        <ul><li>Kimyasallar lokal kılcalların <b>geçirgenliğini artırır</b></li><li><b>Eksüda</b> (proteinler + pıhtılaşma faktörleri + antikorlar içeren sıvı) doku boşluklarına sızar → lokal <b>ödem (şişlik)</b> → <b>ağrı</b> hissine katkı</li></ul>
+        <h4>Ödemin 3 faydası (S36)</h4>
+        <ul><li>Zararlı maddeleri <b>seyreltir</b></li><li>Onarım için bol <b>O₂ ve besin</b> getirir</li><li>Bakteri yayılmasını önleyen <b>pıhtılaşma proteinlerinin</b> girişine izin verir</li></ul>
+        <div class="code">Ödem = "<b>S-O-P</b>" → <b>S</b>eyrelt · <b>O</b>ksijen/besin getir · <b>P</b>ıhtı proteini sok</div>
+      </div>
+    </div>
+    <h4>Fagositik mobilizasyon — 4 aşama (S37–38)</h4>
+    <p>Önce <b>nötrofiller</b>, sonra (diğer) fagositler iltihaplı bölgeye gider:</p>
+    <div class="flow" style="--k:var(--c5)">
+      <div class="st"><b>1. Lökositoz</b>Hasarlı hücrelerden gelen lökositoz faktörleriyle <b>kemik iliğinden nötrofil salınır</b> → kana girer</div><div class="ar">→</div>
+      <div class="st"><b>2. Marjinasyon</b>Nötrofiller iltihaplı bölgedeki <b>kılcal duvarına yapışır</b></div><div class="ar">→</div>
+      <div class="st"><b>3. Diapedez</b>Nötrofiller yassılaşıp <b>kılcal duvardan sıkışarak çıkar</b>, fagositoza başlar</div><div class="ar">→</div>
+      <div class="st"><b>4. Kemotaksi</b>Enflamatuar kimyasallar (kemotaktik ajan) nötrofili <b>yaralanma bölgesine çeker</b> (pozitif kemotaksis) — kimyasal izi takip eder</div>
+    </div>
+    <div class="code"><b class="big">"Lütfen Masaya Dokunma Kızım"</b> = <b>L</b>ökositoz → <b>M</b>arjinasyon → <b>D</b>iapedez → <b>K</b>emotaksi<br>Hikâye: İlikten <b>çık</b> → duvara <b>yapış</b> → duvardan <b>sız</b> → kokuyu <b>takip et</b>.</div>
+    <div class="warn">"<b>Lökositoz</b>" iki yerde geçer: (1) WBC sayısı &gt;11.000/mm³ (S16) · (2) enflamasyonda kemik iliğinden nötrofil salınması = mobilizasyonun 1. aşaması (S37).</div>
+  </div>
+
+  <h3 style="color:#0e7490;margin:22px 0 8px">🎯 B) ADAPTİF (SPESİFİK) SAVUNMA — 3. HAT</h3>
+  <div class="grid">
+    <div class="card" style="--k:#0e7490"><span class="sl">S41–43</span>
+      <h3>Tanım ve özellikler</h3>
+      <ul><li>Daha önce maruz kalındıktan sonra vücudun <b>özel olarak hazırlandığı</b> hedefi yok etmeyi amaçlayan <b>seçici saldırı</b></li><li>Özellikleri:
+        <ul><li><b>Belirli</b> yabancı maddeleri tanır</li><li>Onları <b>hareketsiz bırakmak, etkisizleştirmek veya yok etmek</b> için hareket eder</li><li><b>Enflamatuar yanıtı güçlendirir</b> ve <b>komplemanı aktive eder</b></li></ul></li>
+        <li><b>Antijene özgü · Sistemik · Hafızalı</b></li>
+        <li>İki kol: <b>Humoral = antikor aracılı (B)</b> · <b>Hücresel = hücre aracılı (T)</b></li>
+        <li>Olgun B ve T hücreleri <b>kemik iliğinden veya timustan</b> kana salınır → <b>periferik lenfoid dokularda</b> lenfosit kolonileri kurar</li>
+        <li><b>Erken çocukluktan sonra</b> yeni lenfositlerin çoğu kemik iliğinden değil, bu <b>periferik kolonilerden</b> türer</li></ul>
+      <div class="code"><b class="big">"ÖSH"</b> = <b>Ö</b>zgü · <b>S</b>istemik · <b>H</b>afızalı. <b>B</b> = <b>B</b>ağımsız uçan mermi (antikor, humoral=sıvı) · <b>T</b> = <b>T</b>emasla vuran (hücresel).</div>
+    </div>
+    <div class="card" style="--k:#0e7490"><span class="sl">S44</span>
+      <h3>B lenfosit → Antikorlar (Ig) — 5 sınıf</h3>
+      <p>Dinlenen B lenfosit <b>antijenle uyarılınca</b> antikor (immünoglobulin, Ig) oluşur.</p>
+      <div class="tw"><table>
+        <tr><th>Ig</th><th>Slayttaki bilgi</th><th>🧠 Kod</th></tr>
+        <tr><td><b>IgG</b></td><td>Plazmada <b>en bol</b>; <b>plasentayı geçer</b></td><td><b>G</b> = <b>G</b>ebelik, <b>G</b>enel (en bol)</td></tr>
+        <tr><td><b>IgA</b></td><td>Tükürük, safra gibi <b>salgılarda</b> en sık</td><td><b>A</b> = <b>A</b>ğız (tükürük)</td></tr>
+        <tr><td><b>IgM</b></td><td>Gelişim sırasında ve <b>birincil yanıtta ilk</b> üretilen; <b>komplemanı aktive eder</b></td><td><b>M</b> = "<b>M</b>erhaba, ilk ben geldim"</td></tr>
+        <tr><td><b>IgD</b></td><td>IgM ile birlikte B hücresi üzerinde <b>yüzey reseptörü</b></td><td><b>D</b> = <b>D</b>uvardaki anten</td></tr>
+        <tr><td><b>IgE</b></td><td><b>Mast hücresi</b> reseptörlerine bağlanır → enflamatuar yanıtı kolaylaştırır</td><td><b>E</b> = <b>E</b>gzama/alerji</td></tr>
+      </table></div>
+      <div class="code"><b class="big">G-A-M-D-E</b> → "<b>GAM</b> <b>DE</b>ğil": G Gebelik · A Ağız · M Merhaba · D Duvar · E Egzama</div>
+    </div>
+    <div class="card" style="--k:#0e7490"><span class="sl">S45</span>
+      <h3>İmmünolojik hafıza 📈</h3>
+      <div class="tw"><table>
+        <tr><th></th><th>BİRİNCİL yanıt</th><th>İKİNCİL yanıt</th></tr>
+        <tr><td>Ne zaman?</td><td>Antijene <b>ilk</b> maruziyet (hücresel farklılaşma + proliferasyon)</td><td><b>Aynı</b> antijene tekrar maruziyet</td></tr>
+        <tr><td>Başlangıç</td><td>Gecikme <span class="n">3–6 gün</span></td><td>Bellek hücreleri <b>saatler içinde</b></td></tr>
+        <tr><td>Zirve</td><td><span class="n">10 gün</span> içinde</td><td><span class="n">2–3 gün</span> içinde, <b>çok daha yüksek</b></td></tr>
+        <tr><td>Sonra</td><td>Antikor seviyesi <b>azalır</b></td><td><b>Daha fazla afinite</b>; haftalarca–aylarca yüksek kalır</td></tr>
+      </table></div>
+      <div class="code">Birincil: "<b>3-6 bekle, 10'da tepe</b>" · İkincil: "<b>saatler başla, 2-3'te dev tepe</b>" (aşının mantığı).</div>
+    </div>
+    <div class="card" style="--k:#0e7490"><span class="sl">S46</span>
+      <h3>T lenfositler — 3 alt grup</h3>
+      <div class="cells">
+        <div class="cell" style="--k:#be123c"><h4>Sitotoksik T</h4><ul><li>= <b>öldürücü T</b></li><li><b>CD8</b></li></ul></div>
+        <div class="cell" style="--k:#0369a1"><h4>Yardımcı T</h4><ul><li><b>CD4</b></li></ul></div>
+        <div class="cell" style="--k:#4d7c0f"><h4>Baskılayıcı T</h4><ul><li><b>Treg</b></li><li>Hem B hücresi antikor üretimini hem sitotoksik ve yardımcı T aktivitesini <b>baskılar</b></li></ul></div>
+      </div>
+      <div class="code"><b>CD 4 × 2 = 8</b> → <b>4</b> Yardımcı ("<b>4</b> el yardım"), <b>8</b> öldürücü ("<b>8</b> kollu ahtapot öldürür"). Treg = <b>Reg</b>ülatör = fren.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 6 ============ -->
+<section class="s" id="s6">
+  <div class="shead" style="background:var(--c6)"><span class="no">6</span><div><h2>Trombositler (PLT)</h2><small>Slayt 47–48 · "Tamirci"</small></div><label><input type="checkbox" data-sec="6"> bitti ✓</label></div>
+  <div class="grid">
+    <div class="card" style="--k:var(--c6)"><span class="sl">S47</span>
+      <h3>Trombosit kimlik kartı</h3>
+      <ul>
+        <li>Kan <b>pıhtılaşmasında</b> önemli rol</li>
+        <li>Sayı: <span class="n">150.000–400.000 / µL</span></li>
+        <li>Üretim: <b>kemik iliği</b> · Yıkım: <b>dalak ve karaciğer</b></li>
+        <li>Ömür: <span class="n">5–9 gün</span></li>
+        <li><b>Megakaryosit</b> denen hücrenin <b>parçaları</b></li>
+        <li><b>Çekirdek yok</b>, ama lökosit gibi <b>amip hareketi</b> yapabilir</li>
+        <li>Oluşumu <b>trombopoietin</b> düzenler</li>
+        <li>Granülleri: <b>serotonin, Ca²⁺, enzimler, ADP, PDGF</b> (trombosit kaynaklı büyüme faktörü)</li>
+        <li>Damar kırıklarını kapatan <b>geçici trombosit tıkacı</b> oluşturur</li>
+        <li>Dolaşımda <b>inaktif ve hareketli</b> tutan: endotelden gelen <b>NO ve prostasiklin</b></li>
+      </ul>
+      <div class="code">Granüller "<b>SCEAP</b>" → "<b>S</b>eni <b>C</b>an<b>E</b>vimden <b>A</b>yırma <b>P</b>ıhtı" = Serotonin · Ca²⁺ · Enzim · ADP · PDGF<br>Uyutan ikili: <b>NO + Prostasiklin</b> = "<b>NO</b>, yapışma!"</div>
+    </div>
+    <div class="card" style="--k:var(--c6)"><span class="sl">S48</span>
+      <h3>Trombosit üretimi (trombopoez)</h3>
+      <p>Kök hücre: <b>hemositoblast</b></p>
+      <div class="flow v" style="--k:var(--c6)">
+        <div class="st"><b>Hemositoblast</b></div><div class="ar">↓</div>
+        <div class="st"><b>Megakaryoblast</b></div><div class="ar">↓</div>
+        <div class="st"><b>Promegakaryosit</b></div><div class="ar">↓</div>
+        <div class="st"><b>Megakaryosit</b> (dev hücre)</div><div class="ar">↓ parçalanır</div>
+        <div class="st"><b>Trombositler</b></div>
+      </div>
+      <div class="code">"<b>Blast → Pro → Sit → parça</b>": bebek (blast) → genç (pro) → yetişkin dev (sit) → kırılır, parçaları = trombosit.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 7 ============ -->
+<section class="s" id="s7">
+  <div class="shead" style="background:var(--c7)"><span class="no">7</span><div><h2>Hemostaz · Pıhtılaşma</h2><small>Slayt 49–56</small></div><label><input type="checkbox" data-sec="7"> bitti ✓</label></div>
+  <div class="card" style="--k:var(--c7)"><span class="sl">S49</span>
+    <h3>Hemostaz = kanamanın durması için reaksiyonlar dizisi — hızlı sırayla 3 aşama</h3>
+    <div class="flow" style="--k:var(--c7)">
+      <div class="st"><b>1. Vasküler spazm</b>Damar büzülür 🤏</div><div class="ar">→</div>
+      <div class="st"><b>2. Trombosit tıkacı</b>Trombositler yapışıp yığılır 🧱</div><div class="ar">→</div>
+      <div class="st"><b>3. Koagülasyon</b>Fibrin ağı ile pıhtı 🕸️</div>
+    </div>
+    <div class="code"><b class="big">"Sık – Tıka – Bağla"</b> (Spazm → Tıkaç → Pıhtı). Bahçe hortumu delinince: önce <b>sıkarsın</b>, parmakla <b>tıkarsın</b>, sonra <b>bantla</b> sararsın.</div>
+  </div>
+  <div class="grid" style="margin-top:12px">
+    <div class="card" style="--k:var(--c7)"><span class="sl">S50</span>
+      <h3>1. Vasküler spazm</h3>
+      <ul><li>Hasarlı damarın <b>anında vazokonstriksiyonu</b></li><li>Tetikleyiciler:
+        <ul><li><b>Doğrudan yaralanma</b></li><li><b>Endotel hücreleri ve trombositlerin</b> salgıladığı kimyasallar</li><li><b>Ağrı refleksleri</b></li></ul></li></ul>
+      <p class="note"><b>Slayttaki şema (İng.):</b> Vasküler faz yaralanmadan sonra yaklaşık <b>30 dakika</b> sürer. Endotel hücreleri kasılır ve <b>endotelin</b> salar → düz kas kasılması + endotel bölünmesi uyarılır. Endotel hücreleri "<b>yapışkan</b>" olur; trombositlere ve birbirlerine yapışır.</p>
+      <div class="code">Tetikleyiciler "<b>YKA</b>" = <b>Y</b>ara · <b>K</b>imyasal · <b>A</b>ğrı. Vasküler faz ≈ <b>30 dk</b>, mesajcı <b>endotelin</b>.</div>
+    </div>
+    <div class="card" style="--k:var(--c7)"><span class="sl">S51–52</span>
+      <h3>2. Trombosit tıkacı — <u>POZİTİF geri bildirim</u></h3>
+      <div class="flow v" style="--k:var(--c6)">
+        <div class="st"><b>Adezyon (yapışma)</b>Trombositler plazma proteini <b>von Willebrand faktörü (vWF)</b> yardımıyla <b>açıkta kalan kolajen liflerine</b> yapışır</div><div class="ar">↓</div>
+        <div class="st"><b>Aktivasyon</b><b>Şişer, sivri uçlu, yapışkan</b> olur; kimyasal haberci salgılar → daha çok trombosit yapışır ve içeriğini salar</div><div class="ar">↓</div>
+        <div class="st"><b>Agregasyon (yığılma)</b><b>Serotonin + tromboksan A₂</b> → vasküler spazmı ve agregasyonu artırır → <b>tıkaç</b></div>
+      </div>
+      <p class="note"><b>Slayttaki şema (S52):</b> Trombosit fazı, trombositlerin yapışkan endotel yüzeylerine, bazal membrana, açıkta kalan kolajen liflerine ve birbirine tutunmasıyla başlar. Aktive olunca <b>ADP, PDGF, Ca²⁺, trombosit faktörleri</b> salarlar → agregasyon, vasküler spazm, pıhtılaşma ve damar onarımını desteklerler.</p>
+      <div class="code"><b>vWF = Velcro</b> (cırt cırt): trombositi kolajene yapıştırır. <b>Serotonin + TXA₂</b> = "daha çok sık, daha çok yığ". Pozitif feedback = <b>çığ</b> gibi büyür.</div>
+    </div>
+  </div>
+
+  <div class="card" style="--k:var(--c7);margin-top:12px"><span class="sl">S53–55</span>
+    <h3>3. Koagülasyon — kan sıvıdan <b>jele</b> döner</h3>
+    <ul><li>Trombosit tıkacını <b>fibrin iplikleriyle</b> güçlendirir</li><li>Dolaşan <b>fibrinojen</b> → çözünmeyen protein <b>fibrin</b>; fibrin ağı büyüdükçe kan hücreleri ve trombositler hapsolur → hasarlı damarı kapatan <b>pıhtı</b> (içinde hapsolmuş RBC'ler)</li></ul>
+    <h4>Pıhtılaşmanın 3 aşaması</h4>
+    <div class="flow" style="--k:var(--c7)">
+      <div class="st"><b>① Protrombin aktivatörü</b>oluşur (intrinsik + ekstrinsik yollar)</div><div class="ar">→</div>
+      <div class="st"><b>② Protrombin → Trombin</b></div><div class="ar">→</div>
+      <div class="st"><b>③ Trombin</b>fibrinojenin birleşmesini katalizler → <b>fibrin ağı</b></div>
+    </div>
+    <div class="code"><b class="big">"Aktivatör → Trombin → Fibrin"</b> = Anahtar yapılır → kapı açılır (trombin) → ağ örülür (fibrin).</div>
+
+    <h4>🗺️ Yollar şeması (S54–55)</h4>
+    <div class="grid">
+      <div class="card" style="--k:#16a34a"><h3>EKSTRİNSİK (dış) yol</h3>
+        <div class="flow v" style="--k:#16a34a">
+          <div class="st"><b>Doku hasarı</b></div><div class="ar">↓</div>
+          <div class="st"><b>Doku faktörü (TF = Faktör III)</b> + <b>Faktör VII</b> → TF:VIIa (doku faktörü kompleksi)</div><div class="ar">↓ (+Ca²⁺)</div>
+          <div class="st"><b>X → Xa</b></div>
+        </div>
+        <p class="note">Kısa yol, hızlı: sadece <b>III ve VII</b>.</p>
+      </div>
+      <div class="card" style="--k:#2563eb"><h3>İNTRİNSİK (iç) yol</h3>
+        <div class="flow v" style="--k:#2563eb">
+          <div class="st"><b>Yüzey teması</b> (aktive proenzimler, genelde F-XII)</div><div class="ar">↓</div>
+          <div class="st"><b>XII → XIIa</b></div><div class="ar">↓</div>
+          <div class="st"><b>XI → XIa</b></div><div class="ar">↓</div>
+          <div class="st"><b>IX → IXa</b></div><div class="ar">↓ (+PL, VIII, Ca²⁺) · trombosit faktörü PF-3</div>
+          <div class="st"><b>X → Xa</b> (Faktör X aktivatör kompleksi)</div>
+        </div>
+        <p class="note">Uzun yol: <b>12 → 11 → 9 (+8) → 10</b>.</p>
+      </div>
+      <div class="card wide" style="--k:var(--c7)"><h3>ORTAK yol (iki yol X'te buluşur)</h3>
+        <div class="flow" style="--k:var(--c7)">
+          <div class="st"><b>Xa</b> (+V, PL, Ca²⁺) = <b>protrombinaz</b></div><div class="ar">→</div>
+          <div class="st"><b>Protrombin (II) → Trombin (IIa)</b></div><div class="ar">→</div>
+          <div class="st"><b>Fibrinojen (I) → Fibrin</b></div><div class="ar">→</div>
+          <div class="st"><b>Stabil fibrin</b> (trombin XIII'ü XIIIa yapar; XIIIa fibrini stabilize eder)</div>
+        </div>
+        <p class="note">S55 şemasında sağdaki ok "XII → XIIIa" diye yazılmış; tabloya göre fibrini stabilize eden <b>XIII</b>'tür (Fibrin stabilizing factor).</p>
+        <div class="code">Ortak yol geri sayım: <b class="big">10 → 5 → 2 → 1 → 13</b> ("<b>X</b> <b>V</b>urdu, <b>II</b> açıldı, <b>I</b> ağ oldu, <b>XIII</b> mühürledi"). PL = trombosit membran fosfolipidi.</div>
+      </div>
+    </div>
+    <h4>S55 sözlükçesi (şemanın kutusu)</h4>
+    <ul class="note" style="color:var(--ink)">
+      <li><b>VII</b> – Stable factor, serin proteaz · <b>IX</b> – Christmas factor, serin proteaz · <b>XI</b> – Plazma tromboplastin antesedenti, serin proteaz · <b>XII</b> – Hageman factor, serin proteaz</li>
+      <li><b>XIII</b> – Fibrin stabilizing factor, <b>transglutaminaz</b> · <b>PL</b> – trombosit membran fosfolipidi · <b>Ca²⁺</b> – kalsiyum iyonları · <b>TF</b> – doku faktörü</li>
+    </ul>
+  </div>
+
+  <div class="card" style="--k:var(--c7);margin-top:12px"><span class="sl">S56</span>
+    <h3>Pıhtılaşma faktörleri tablosu</h3>
+    <div class="tw"><table>
+      <tr><th>Faktör</th><th>Adı</th><th>Yol</th></tr>
+      <tr><td>I</td><td>Fibrinojen</td><td>Her ikisi</td></tr>
+      <tr><td>II</td><td>Protrombin</td><td>Her ikisi</td></tr>
+      <tr style="background:color-mix(in srgb,#16a34a 15%,transparent)"><td>III</td><td>Doku faktörü (Tissue factor)</td><td><b>Ekstrinsik</b></td></tr>
+      <tr><td>IV</td><td>Kalsiyum</td><td>Her ikisi</td></tr>
+      <tr><td>V</td><td>Proakselerin</td><td>Her ikisi</td></tr>
+      <tr><td>VI</td><td>Akselerin</td><td>Her ikisi</td></tr>
+      <tr style="background:color-mix(in srgb,#16a34a 15%,transparent)"><td>VII</td><td>Prokonvertin</td><td><b>Ekstrinsik</b></td></tr>
+      <tr style="background:color-mix(in srgb,#2563eb 15%,transparent)"><td>VIII</td><td>Antihemofilik</td><td><b>İntrinsik</b></td></tr>
+      <tr style="background:color-mix(in srgb,#2563eb 15%,transparent)"><td>IX</td><td>Christmas faktörü</td><td><b>İntrinsik</b></td></tr>
+      <tr><td>X</td><td>Stuart-Prower faktörü</td><td>Her ikisi</td></tr>
+      <tr style="background:color-mix(in srgb,#2563eb 15%,transparent)"><td>XI</td><td>Plazma tromboplastin antesedenti (PTA)</td><td><b>İntrinsik</b></td></tr>
+      <tr style="background:color-mix(in srgb,#2563eb 15%,transparent)"><td>XII</td><td>Hageman faktörü</td><td><b>İntrinsik</b></td></tr>
+      <tr><td>XIII</td><td>Protransglutaminaz</td><td>Her ikisi</td></tr>
+    </table></div>
+    <div class="code">Yol kuralı: <b class="big">DIŞ = 3, 7</b> ("dış kapı <b>37</b>") · <b class="big">İÇ = 8, 9, 11, 12</b> ("<b>8-9</b> yatıp <b>11-12</b>'de kalkar") · <b>Gerisi ORTAK</b> (1, 2, 4, 5, 6, 10, 13).<br>
+    İsimler: <b>I</b> Fibrinojen · <b>II</b> Protrombin · <b>III</b> Doku · <b>IV</b> Kalsiyum ("<b>F-P-D-K</b> = Fatma Pazardan Domates Kaldırdı") · <b>V-VI</b> Proakselerin/Akselerin (ikiz) · <b>VII</b> Prokonvertin · <b>VIII</b> Antihemofilik · <b>IX</b> Christmas 🎄 · <b>X</b> Stuart-Prower · <b>XI</b> PTA · <b>XII</b> Hageman · <b>XIII</b> Protransglutaminaz (son = mühür).</div>
+  </div>
+</section>
+
+<!-- ============ 8 ============ -->
+<section class="s" id="s8">
+  <div class="shead" style="background:var(--c8)"><span class="no">8</span><div><h2>Kan Grupları · ABO · Rh</h2><small>Slayt 57–61</small></div><label><input type="checkbox" data-sec="8"> bitti ✓</label></div>
+  <div class="grid">
+    <div class="card" style="--k:var(--c8)"><span class="sl">S57</span>
+      <h3>İnsan kan grupları — temel</h3>
+      <ul><li>Eritrosit membranlarının dış yüzeyinde <b>glikoprotein antijenleri</b> var</li><li>Bu antijenler:
+        <ul><li><b>Her bireye özel</b></li><li>Başka kişiye transfüzyonda <b>yabancı</b> tanınır</li><li>Varlığı/yokluğu kan hücrelerini <b>gruplara ayırmakta</b> kullanılır</li></ul></li></ul>
+      <div class="code">Antijen = <b>kimlik kartı</b> (hücrenin üstünde) · Antikor = <b>polis</b> (plazmada). Polis, <b>kendinde olmayan</b> kimliği arar.</div>
+    </div>
+    <div class="card" style="--k:var(--c8)"><span class="sl">S58</span>
+      <h3>ABO sistemi</h3>
+      <ul><li>Tipler: <b>A, B, AB, O</b></li><li>RBC yüzeyinde iki <b>aglütinojenin (A ve B)</b> varlığına/yokluğuna göre</li><li>Kan, normalde kendinde olmayan ABO antijenli transfüze RBC'lere karşı etkili <b>anti-A / anti-B antikorları (aglütininler)</b> içerebilir</li><li>Anti-A / anti-B kanda yaklaşık <span class="n">2 aylıkken</span> oluşur</li></ul>
+      <div class="tw"><table>
+        <tr><th>Grup</th><th>RBC yüzeyinde (aglütinojen)</th><th>Plazmada (aglütinin)</th></tr>
+        <tr><td><b>A</b></td><td>A antijeni</td><td>Anti-B</td></tr>
+        <tr><td><b>B</b></td><td>B antijeni</td><td>Anti-A</td></tr>
+        <tr><td><b>AB</b></td><td>A ve B</td><td>Ne anti-A ne anti-B</td></tr>
+        <tr><td><b>O</b></td><td>Ne A ne B</td><td>Anti-A ve anti-B</td></tr>
+      </table></div>
+      <div class="code"><b class="big">"Kendinde olanın tersini taşır"</b>. Aglütin<b>ojen</b> = <b>hücre</b>de (j → "jeton" hücre üstünde) · Aglütin<b>in</b> = plazmada (in = "<b>in</b>ce sıvı").</div>
+    </div>
+    <div class="card" style="--k:var(--c8)"><span class="sl">S59</span>
+      <h3>Rh (Rhesus) faktörü</h3>
+      <ul><li>Birkaç farklı Rh aglütinojeni (Rh faktörleri) var</li><li>En yaygın: <b>C, D, E</b></li><li><b>D'nin varlığı = Rh+</b></li><li>Anti-Rh antikorları Rh(–) bireylerde <b>kendiliğinden oluşmaz</b></li><li>Ama Rh(–) kişi <b>Rh+ kan alırsa</b> anti-Rh antikoru oluşur</li><li>Rh+ kana <b>ikinci kez</b> maruz kalma → tipik <b>transfüzyon reaksiyonu</b></li></ul>
+      <div class="code"><b>D = Damga</b> (D varsa Rh+). ABO'dan farkı: anti-Rh <b>hazır bekleyen polis değil</b>; ancak 1. karşılaşmadan sonra yetiştirilir → <b>2. seferde</b> patlar.</div>
+      <div class="warn">ABO antikorları ~2 aylıkken <b>kendiliğinden</b> oluşur; anti-Rh <b>kendiliğinden oluşmaz</b>, ancak maruziyetle.</div>
+    </div>
+    <div class="card" style="--k:var(--c8)"><span class="sl">S60–61</span>
+      <h3>Kan gruplama testi 🧫</h3>
+      <ul><li>Kana anti-A veya anti-B aglütinin içeren <b>serum</b> eklenir → aglütinin ile karşılık gelen aglütinojen arasında <b>aglütinasyon</b> (kümelenme)</li><li><b>Pozitif reaksiyon = aglütinasyon</b></li></ul>
+      <div class="tw"><table>
+        <tr><th>Grup</th><th>Anti-A serum</th><th>Anti-B serum</th></tr>
+        <tr><td><b>AB</b></td><td>🟥 kümelenir</td><td>🟥 kümelenir</td></tr>
+        <tr><td><b>A</b></td><td>🟥 kümelenir</td><td>⚪ —</td></tr>
+        <tr><td><b>B</b></td><td>⚪ —</td><td>🟥 kümelenir</td></tr>
+        <tr><td><b>O</b></td><td>⚪ —</td><td>⚪ —</td></tr>
+      </table></div>
+      <div class="code">Hangi serumda kümeleniyorsa <b>o harf sende var</b>. Hiçbirinde yoksa <b>O</b> (sıfır gibi, hiçbiri).</div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ HOCANIN VURGULARI ============ -->
+<section class="s" id="hoca">
+  <div class="shead" style="background:#c00000"><span class="no">🎯</span><div><h2>Hocanın Vurguladıkları — Sınav Hedef Listesi</h2><small>Slaytlarda <span style="color:#ffd0d0">kırmızı</span>, <span style="color:#bfe3ff">mavi</span> ya da kalın yazılan her şey burada. Bildiğini işaretle ✓</small></div></div>
+  <div class="prog"><div id="hprog"></div></div>
+  <p class="note" id="htxt"></p>
+  <p class="note">💡 Önce soruya bak, cevabı içinden söyle, sonra oku. <b>🙈 Ezber modu</b> açıkken cevaplar gizlenir, dokununca açılır. Bildiğin maddeye tik at; bilmediğin kalır, ertesi gün sadece onlara dönersin.</p>
+  <div class="hedef" id="hedef"></div>
+</section>
+
+<!-- ============ SON 10 DK ============ -->
+<section class="s" id="son10">
+  <div class="shead" style="background:#444"><span class="no">⏱️</span><div><h2>Sınavdan Önce Son 10 Dakika</h2><small>Bütün dersin hafıza kodları tek ekranda. Sınav kapısında bunu oku.</small></div></div>
+  <div class="cheat">
+    <div style="--k:var(--c1)"><b>KAN</b>: bağ dokusu · pH 7.35–7.45 · 38°C · %8 · E 5–6 L / K 4–5 L · işlev <b>DDK</b> (Dağıt-Düzenle-Koru)</div>
+    <div style="--k:var(--c2)"><b>PLAZMA %55</b> / şekilli %45 · su %90 · proteinler <b>karaciğerden</b> · <b>A-G-F 60-36-4</b> · albümin = ozmotik basınç + viskozite + taşıma</div>
+    <div style="--k:var(--c2)"><b>SERUM = plazma − fibrinojen</b> (antikoagülan eklenmez, pıhtılaşmaya izin verilir) · plazma = antikoagülan + santrifüj</div>
+    <div style="--k:var(--c2)"><b>ABE-GH</b>: Atık (laktik, üre, kreatinin, ürik, bilirubin) · Besin · Elektrolit · Gaz · Hormon</div>
+    <div style="--k:var(--c3)"><b>RBC</b>: %99,9 · bikonkav · 7–8 µm · çekirdek/mitokondri yok → anaerobik · E 4.5–6.3 / K 4.2–5.5 milyon · HTC %47 / %42 ±5</div>
+    <div style="--k:var(--c3)"><b>Hb "hep 4"</b>: 2α2β + 4 hem + 4 Fe + 4 O₂ · E 14–18 / K 12–16 g/dL</div>
+    <div style="--k:var(--c3)"><b>Hematopoez</b>: kırmızı kemik iliği (iskelet, humerus ve femur epifizi) · hemositoblast → miyeloid / lenfoid · demir: Transferrin taşır, Ferritin + Hemosiderin depolar · B12 + folik</div>
+    <div style="--k:var(--c3)"><b>Yıkım</b> 100–120 gün · globin → amino asit · demir ♻️ · <b>Bil → Üro → Sterko</b></div>
+    <div style="--k:var(--c4)"><b>WBC</b> 4–11 bin · lökositoz &gt;11 bin · ilik doğar, dalak öldürür · <b>Nazlı Lale Masada Eski Bisküvi</b> (50–70 / 25+ / 3–8 / 2–4 / 0,5–1)</div>
+    <div style="--k:var(--c4)"><b>NEB</b> granülosit (loblu, fagositik) · <b>LM</b> agranülosit (küre / böbrek) · monosit en büyük → makrofaj · bazofil histamin</div>
+    <div style="--k:var(--c4)"><b>Lenfosit</b>: T hücresel · B humoral (plazma hücresi) · NK kanser/anormal · <b>IL numaralı, CSF isimli</b> · kaynak makrofaj + T</div>
+    <div style="--k:var(--c5)"><b>3 hat</b>: deri-mukoza → <b>FNEAA</b> (Fagosit, NK, Enflamasyon, Antimikrobiyal, Ateş) → adaptif (B+T) · en önemli doğuştan mekanizma = enflamasyon</div>
+    <div style="--k:var(--c5)"><b>Organlar</b>: kemik iliği, timus, dalak, lenf düğümü, MALT · <b>Proteinler</b>: antikor + kompleman · <b>Hücreler</b>: lökosit, mast, yardımcı hücreler</div>
+    <div style="--k:var(--c5)"><b>Enflamasyon</b>: <b>HKPKS</b> → hiperemi → eksüda/ödem (<b>S-O-P</b>) → <b>Lütfen Masaya Dokunma Kızım</b> (L-M-D-K)</div>
+    <div style="--k:var(--c5)"><b>Fagositoz</b>: Yapış (opsonizasyon) → Yut → Fagolizozom → Sindir → Ekzositoz · Kupffer karaciğer, mikroglia beyin, alveolar serbest</div>
+    <div style="--k:var(--c5)"><b>NK</b>: büyük granüler lenfosit → <b>apoptoz</b> · <b>Ateş</b>: pirojen; orta ateş Fe + Zn tutar, metabolizmayı artırır · <b>IFN + kompleman</b></div>
+    <div style="--k:#0e7490"><b>Adaptif</b>: Özgü-Sistemik-Hafızalı · Humoral (B) / Hücresel (T) · <b>GAM DE</b>: G plasenta + en bol · A salgı · M ilk + kompleman · D yüzey reseptörü · E mast</div>
+    <div style="--k:#0e7490"><b>Birincil</b> 3–6 gün gecikme, 10 günde zirve · <b>İkincil</b> saatler içinde, 2–3 günde dev zirve · <b>CD4 yardımcı, CD8 öldürücü, Treg fren</b></div>
+    <div style="--k:var(--c6)"><b>PLT</b> 150–400 bin · 5–9 gün · megakaryosit parçası · trombopoietin · <b>SCEAP</b> · NO + prostasiklin uyutur · yıkım dalak + karaciğer</div>
+    <div style="--k:var(--c7)"><b>Sık-Tıka-Bağla</b> · spazm ~30 dk (YKA, endotelin) · tıkaç = <b>pozitif feedback</b>, vWF + kolajen, serotonin + TXA₂</div>
+    <div style="--k:var(--c7)"><b>Koagülasyon</b>: aktivatör → protrombin → trombin → fibrin · <b>Dış 37</b> (III, VII) · <b>İç 12-11-9-8</b> · ortak <b>10-5-2-1-13</b></div>
+    <div style="--k:var(--c8)"><b>ABO</b>: kendinde olmayanın antikoru · O: anti-A + anti-B · AB: antikor yok · ~2 ay · <b>Rh = D</b>, anti-Rh kendiliğinden oluşmaz, 2. maruziyette reaksiyon</div>
+  </div>
+</section>
+
+<!-- ============ SAYILAR ============ -->
+<section class="s" id="sayilar">
+  <div class="shead" style="background:#444"><span class="no">🔢</span><div><h2>Bütün Sayılar Tek Tabloda</h2><small>Sınavın en sevdiği yer — her gece 1 kez oku</small></div></div>
+  <div class="card" style="--k:#444"><div class="tw"><table>
+    <tr><th>Konu</th><th>Değer</th><th>Slayt</th></tr>
+    <tr><td>Kan pH</td><td>7.35–7.45 (hafif alkali)</td><td>2</td></tr>
+    <tr><td>Kan sıcaklığı</td><td>38 °C</td><td>2</td></tr>
+    <tr><td>Vücut ağırlığındaki payı</td><td>~%8</td><td>2</td></tr>
+    <tr><td>Kan hacmi</td><td>E 5–6 L · K 4–5 L</td><td>2</td></tr>
+    <tr><td>Plazma / şekilli eleman</td><td>%55 / %45</td><td>4</td></tr>
+    <tr><td>Plazmadaki su</td><td>%90</td><td>7</td></tr>
+    <tr><td>Albümin / Globulin / Fibrinojen</td><td>%60 / %36 / %4</td><td>8</td></tr>
+    <tr><td>RBC'nin kan hücreleri içindeki payı</td><td>%99,9</td><td>10</td></tr>
+    <tr><td>RBC çapı</td><td>7–8 (µm)</td><td>10</td></tr>
+    <tr><td>RBC sayısı</td><td>E 4.5–6.3 milyon · K 4.2–5.5 milyon</td><td>11</td></tr>
+    <tr><td>Hematokrit</td><td>E %47±5 · K %42±5</td><td>11</td></tr>
+    <tr><td>Hb</td><td>E 14–18 · K 12–16 g/dL</td><td>12</td></tr>
+    <tr><td>Hb başına O₂ / hem / zincir</td><td>4 O₂ · 4 hem · 2α+2β</td><td>12</td></tr>
+    <tr><td>Demirin Hb'deki payı</td><td>%65</td><td>14</td></tr>
+    <tr><td>RBC ömrü</td><td>100–120 gün</td><td>15</td></tr>
+    <tr><td>WBC sayısı</td><td>4.000–11.000 /mm³</td><td>16</td></tr>
+    <tr><td>Lökositoz</td><td>&gt;11.000 /mm³</td><td>16</td></tr>
+    <tr><td>Nötrofil / Lenfosit / Monosit / Eozinofil / Bazofil</td><td>%50–70 / %25+ / %3–8 / %2–4 / %0,5–1</td><td>18–21</td></tr>
+    <tr><td>Deri pH</td><td>3–5</td><td>30</td></tr>
+    <tr><td>Ig sınıfı sayısı</td><td>5 (G, A, M, D, E)</td><td>44</td></tr>
+    <tr><td>Birincil yanıt</td><td>gecikme 3–6 gün · zirve 10 gün</td><td>45</td></tr>
+    <tr><td>İkincil yanıt</td><td>saatler içinde · zirve 2–3 gün</td><td>45</td></tr>
+    <tr><td>T hücre CD</td><td>Sitotoksik CD8 · Yardımcı CD4</td><td>46</td></tr>
+    <tr><td>Trombosit sayısı</td><td>150.000–400.000 /µL</td><td>47</td></tr>
+    <tr><td>Trombosit ömrü</td><td>5–9 gün</td><td>47</td></tr>
+    <tr><td>Hemostaz aşaması</td><td>3</td><td>49</td></tr>
+    <tr><td>Vasküler faz süresi</td><td>~30 dakika</td><td>50</td></tr>
+    <tr><td>Pıhtılaşma faktörleri</td><td>I–XIII (13)</td><td>56</td></tr>
+    <tr><td>Anti-A/anti-B oluşumu</td><td>~2 aylıkken</td><td>58</td></tr>
+  </table></div>
+  <div class="code">Ömür sıralaması: <b>RBC 100–120 gün</b> ≫ <b>PLT 5–9 gün</b>. Sayı sıralaması: <b>RBC milyonlar</b> &gt; <b>PLT yüz binler</b> &gt; <b>WBC binler</b> → "<b>Milyon-Yüzbin-Bin</b>".</div>
+  </div>
+</section>
+
+<!-- ============ KARIŞANLAR ============ -->
+<section class="s" id="karisan">
+  <div class="shead" style="background:#444"><span class="no">⚠️</span><div><h2>Kafada Karışanlar — Yan Yana</h2><small>Sınav tuzaklarının çoğu buradan çıkar</small></div></div>
+  <div class="card" style="--k:#444"><div class="tw"><table>
+    <tr><th>Bunu</th><th>Şununla karıştırma</th></tr>
+    <tr><td><b>Plazma</b>: antikoagülan + santrifüj, fibrinojen VAR</td><td><b>Serum</b>: pıhtılaşmaya izin, fibrinojen YOK</td></tr>
+    <tr><td><b>Albümin</b>: ozmotik basınç + viskozite + taşıma</td><td><b>Globulin</b>: immünoglobulin + taşıma globulinleri</td></tr>
+    <tr><td><b>Transferrin</b>: demiri TAŞIR</td><td><b>Ferritin/hemosiderin</b>: demiri DEPOLAR</td></tr>
+    <tr><td><b>Miyeloid</b> kök hücre → RBC, granülositler, monosit</td><td><b>Lenfoid</b> kök hücre → lenfosit</td></tr>
+    <tr><td><b>RBC</b> yıkımı: makrofaj, dalak, karaciğer</td><td><b>WBC</b> yıkımı: dalak · <b>PLT</b> yıkımı: dalak + karaciğer</td></tr>
+    <tr><td><b>Bazofil</b>: histamin, mast hücresine benzer</td><td><b>Eozinofil</b>: parazit/solucan, alerji şiddetini AZALTIR</td></tr>
+    <tr><td><b>Granülosit</b> = NEB, loblu çekirdek</td><td><b>Agranülosit</b> = LM, küre/böbrek çekirdek</td></tr>
+    <tr><td><b>Lökositoz</b> (S16) = WBC &gt;11.000</td><td><b>Lökositoz</b> (S37) = mobilizasyonun 1. aşaması</td></tr>
+    <tr><td><b>Marjinasyon</b> = duvara YAPIŞMA</td><td><b>Diapedez</b> = duvardan SIZMA · <b>Kemotaksi</b> = kimyasal izi TAKİP</td></tr>
+    <tr><td><b>Serbest makrofaj</b> = alveolar</td><td><b>Sabit makrofaj</b> = Kupffer (karaciğer), mikroglia (beyin)</td></tr>
+    <tr><td><b>NK hücresi</b>: lenfosit ama DOĞUŞTAN savunma, apoptoz yaptırır</td><td><b>Sitotoksik T (CD8)</b>: ADAPTİF savunma</td></tr>
+    <tr><td><b>Humoral</b> = B hücresi = antikor</td><td><b>Hücresel</b> = T hücresi = doğrudan hücre</td></tr>
+    <tr><td><b>IgG</b>: en bol, plasentayı geçer</td><td><b>IgM</b>: ilk üretilen, komplemanı aktive eder</td></tr>
+    <tr><td><b>IgA</b>: salgılar (tükürük, safra)</td><td><b>IgE</b>: mast hücresi · <b>IgD</b>: IgM ile yüzey reseptörü</td></tr>
+    <tr><td><b>Birincil yanıt</b>: 3–6 gün gecikme, 10 günde zirve, sonra düşer</td><td><b>İkincil yanıt</b>: saatler, 2–3 günde çok yüksek zirve, aylarca kalır</td></tr>
+    <tr><td><b>CD4</b> = yardımcı T</td><td><b>CD8</b> = sitotoksik (öldürücü) T · <b>Treg</b> = baskılayıcı</td></tr>
+    <tr><td><b>NO + prostasiklin</b>: trombositi İNAKTİF tutar</td><td><b>Serotonin + TXA₂</b>: spazm + agregasyonu ARTIRIR</td></tr>
+    <tr><td><b>Ekstrinsik</b>: doku hasarı, III + VII (kısa)</td><td><b>İntrinsik</b>: yüzey teması, XII→XI→IX(+VIII) (uzun)</td></tr>
+    <tr><td><b>Aglütinojen</b> = RBC yüzeyindeki antijen</td><td><b>Aglütinin</b> = plazmadaki antikor</td></tr>
+    <tr><td><b>ABO antikorları</b>: ~2 ayda kendiliğinden</td><td><b>Anti-Rh</b>: kendiliğinden yok, Rh+ kana maruziyetle</td></tr>
+  </table></div></div>
+</section>
+
+<!-- ============ TEST ============ -->
+<section class="s" id="test">
+  <div class="shead" style="background:var(--c1)"><span class="no">🃏</span><div><h2>Kendini Test Et</h2><small>Karta dokun → cevap döner. Bilemediklerini tekrar et.</small></div></div>
+  <p><button class="btn" id="shuffle">🔀 Karıştır</button> <button class="btn" id="onlyhv" style="background:#c00000">🎯 Sadece hocanın vurguladıkları</button> <button class="btn" id="closeall" style="background:var(--mute)">Hepsini kapat</button></p>
+  <div class="fc-wrap" id="cards"></div>
+</section>
+
+<!-- ============ SLAYTLAR ============ -->
+<section class="s" id="slaytlar">
+  <div class="shead" style="background:var(--c5)"><span class="no">✅</span><div><h2>62 Slayt Kontrol Listesi</h2><small>Hiçbir slayt atlanmadı — her biri hangi bölümde?</small></div></div>
+  <div class="slides" id="slidelist"></div>
+</section>
+
+<footer>
+  <p class="nur">Nurum bitanem 💗</p>
+  <p>Sen bunu yaparsın. 🩸→🧠→💯</p>
+</footer>
+</div>
+
+<script>
+// ---- Bölüm ilerleme (localStorage sadece kolaylık için)
+(function(){
+  const boxes=[...document.querySelectorAll('input[data-sec]')];
+  let saved={};
+  try{saved=JSON.parse(localStorage.getItem('kanfiz-done')||'{}')}catch(e){}
+  function upd(){
+    const d=boxes.filter(b=>b.checked).length;
+    document.getElementById('progbar').style.width=(d/boxes.length*100)+'%';
+    document.getElementById('progtxt').textContent=d===boxes.length?'🎉 8/8 bölüm bitti — şimdi test kartlarına geç!':`${d}/8 bölüm bitti`;
+  }
+  boxes.forEach(b=>{b.checked=!!saved[b.dataset.sec];b.addEventListener('change',()=>{saved[b.dataset.sec]=b.checked;try{localStorage.setItem('kanfiz-done',JSON.stringify(saved))}catch(e){};upd()})});
+  upd();
+})();
+
+// ---- Flash kartlar
+const Q=[
+["Kanın pH aralığı?","7.35–7.45 (hafif alkali)"],
+["Kan sıcaklığı kaç derece?","38 °C"],
+["Kan vücut ağırlığının yüzde kaçı?","~%8"],
+["Kan hacmi erkek/kadın?","E 5–6 L · K 4–5 L"],
+["Kanın 3 işlevi?","Dağıtım · Düzenleme · Koruma (DDK)"],
+["Düzenleme işlevinin 3 maddesi?","Vücut ısısı · pH (tampon) · sıvı hacmi"],
+["Plazma : şekilli eleman oranı?","%55 : %45"],
+["Plazma ile serumun farkı?","Serum = fibrinojen (pıhtılaşma proteinleri) içermeyen plazma; serumda antikoagülan eklenmez"],
+["Plazma proteinlerini çoğunlukla hangi organ üretir?","Karaciğer"],
+["Albümin / globulin / fibrinojen yüzdeleri?","%60 / %36 / %4"],
+["Kanın ozmotik basıncından ve viskozitesinden sorumlu protein?","Albümin"],
+["Azotlu metabolizma yan ürünleri?","Laktik asit, üre, kreatinin, ürik asit, bilirubin"],
+["Eritrositte ATP nasıl üretilir, neden?","Anaerobik — mitokondri yok"],
+["Bikonkav şeklin 3 avantajı?","Geniş yüzey/hacim · O₂'yi hızlı al-ver · bükülüp kılcala girme"],
+["Hematokrit tanımı ve değerleri?","Santrifüjlenmiş tam kandaki RBC yüzdesi · E %47±5 · K %42±5"],
+["Hb yapısı?","Globin (2α + 2β) + 4 hem; her hemde 1 demir; 4 O₂ taşır"],
+["Normal Hb erkek/kadın?","E 14–18 · K 12–16 g/dL"],
+["Hematopoez nerede olur?","Kırmızı kemik iliği: iskelet kemikleri, humerus ve femur epifizleri"],
+["Demir kanda neye bağlı taşınır? Nerede depolanır?","Transferrin · ferritin ve hemosiderin (karaciğer, dalak, kemik iliği; %65 Hb'de)"],
+["B12 ve folik asit ne için gerekli?","Hücre bölünmesi (eritropoez)"],
+["RBC ömrü?","100–120 gün"],
+["Hem yıkım yolu?","Bilirubin → (safra) → bağırsakta ürobilinojen → dışkıda sterkobilin"],
+["Globin ne olur?","Amino asitlere metabolize edilip dolaşıma salınır"],
+["Normal WBC sayısı? Lökositoz?","4.000–11.000/mm³ · >11.000/mm³"],
+["Lökositler nerede üretilir, nerede yıkılır?","Kemik iliği · dalak"],
+["Granülositler hangileri? Ortak özellikleri?","Nötrofil, eozinofil, bazofil · RBC'den büyük, kısa ömür, loblu çekirdek, fagositik"],
+["En çok bulunan lökosit?","Nötrofil (%50–70) — PMN, bakteri avcısı"],
+["Defensin hangi hücrede?","Nötrofil (antibiyotik benzeri protein)"],
+["Parazit/solucan + alerji şiddetini azaltan?","Eozinofil (%2–4)"],
+["Histamin içeren, en nadir lökosit?","Bazofil (%0,5–1), mast hücresine benzer"],
+["En büyük lökosit? Dokuda neye dönüşür?","Monosit (%3–8) → makrofaj"],
+["3 lenfosit tipi?","T (hücresel) · B (humoral, plazma hücresi→antikor) · NK"],
+["Lökopoezi uyaran 2 sitokin ailesi?","İnterlökinler (numaralı) · Koloni uyarıcı faktörler (CSF, hücre adıyla)"],
+["Sitokinlerin en önemli kaynakları?","Makrofajlar ve T hücreleri"],
+["Monoblast → ? · Miyeloblast → ?","Monosit · Eozinofil, nötrofil, bazofil"],
+["Bağışıklık sisteminin organları?","Kemik iliği, timus, dalak, lenf düğümleri, MALT"],
+["Bağışıklık proteinleri?","Antikorlar ve komplemanlar"],
+["İç savunmalar (2. hat) 5 tane?","Fagositler, NK, enflamasyon, antimikrobiyal proteinler, ateş"],
+["Doğuştan savunmanın en önemli mekanizması?","Enflamasyon"],
+["Deri pH'ı?","3–5"],
+["Lizozim nerede?","Tükürük ve gözyaşı (lakrimal sıvı)"],
+["Kupffer hücresi ve mikroglia?","Sabit makrofaj — karaciğer ve beyin"],
+["Opsonizasyon nedir?","Patojenin kompleman veya antikorla kaplanması → fagositozu kolaylaştırır"],
+["Fagositoz 5 adımı?","Yapışma → yalancı bacakla yutma → fagozom+lizozom=fagolizozom → proteolitik sindirim → ekzositoz"],
+["NK hücresi hedefi nasıl öldürür?","Granül içeriğini ekzositozla salar → hedef apoptoz geçirir"],
+["Enflamatuar mediatörler?","Histamin, kininler, prostaglandinler, kompleman, sitokinler"],
+["Hiperemi neden olur?","Mediatörler lokal küçük damarları genişletir"],
+["Eksüda içeriği?","Proteinler, pıhtılaşma faktörleri, antikorlar"],
+["Ödemin 3 faydası?","Zararlıyı seyreltir · O₂/besin getirir · pıhtılaşma proteinlerinin girişine izin verir"],
+["Fagositik mobilizasyonun 4 aşaması (sırayla)?","Lökositoz → Marjinasyon → Diapedez → Kemotaksi"],
+["En önemli antimikrobiyal proteinler?","İnterferonlar ve kompleman"],
+["Ateşi başlatan kimyasal?","Pirojen (lökosit ve makrofajlardan)"],
+["Orta ateşin faydaları?","Karaciğer/dalak demir ve çinkoyu tutar · metabolik hız ↑ → onarım hızlanır"],
+["Adaptif bağışıklığın 3 özelliği?","Antijene özgü · sistemik · hafızalı"],
+["Plasentayı geçen Ig?","IgG (plazmada en bol)"],
+["Birincil yanıtta ilk üretilen, komplemanı aktive eden Ig?","IgM"],
+["Salgılarda en sık Ig?","IgA"],
+["Mast hücresine bağlanan Ig?","IgE"],
+["IgM ile B hücresinde yüzey reseptörü olan Ig?","IgD"],
+["Birincil yanıt süreleri?","Gecikme 3–6 gün · zirve 10 gün"],
+["İkincil yanıt süreleri?","Saatler içinde başlar · 2–3 günde çok daha yüksek zirve"],
+["CD4 / CD8?","CD4 yardımcı T · CD8 sitotoksik (öldürücü) T"],
+["Treg ne yapar?","B antikor üretimini ve sitotoksik + yardımcı T aktivitesini baskılar"],
+["Trombosit sayısı ve ömrü?","150.000–400.000/µL · 5–9 gün"],
+["Trombosit nerede üretilir/yıkılır?","Kemik iliği · dalak ve karaciğer"],
+["Trombosit oluşumunu düzenleyen?","Trombopoietin"],
+["Trombosit granüllerinde ne var?","Serotonin, Ca²⁺, enzimler, ADP, PDGF"],
+["Trombositi inaktif tutan?","Endotelden NO ve prostasiklin"],
+["Trombopoez sırası?","Hemositoblast → megakaryoblast → promegakaryosit → megakaryosit → trombosit"],
+["Hemostazın 3 aşaması?","Vasküler spazm → trombosit tıkacı → koagülasyon"],
+["Vasküler spazm tetikleyicileri?","Doğrudan yaralanma · endotel ve trombosit kimyasalları · ağrı refleksleri"],
+["Trombositin kolajene yapışmasını sağlayan?","von Willebrand faktörü (vWF)"],
+["Trombosit tıkacı ne tür geri bildirim?","Pozitif geri bildirim"],
+["Spazmı ve agregasyonu artıran 2 madde?","Serotonin ve tromboksan A₂"],
+["Pıhtılaşmanın 3 aşaması?","Protrombin aktivatörü oluşur → protrombin → trombin → trombin fibrinojeni fibrin ağına çevirir"],
+["Ekstrinsik yol faktörleri?","III (doku faktörü) ve VII (prokonvertin)"],
+["İntrinsik yol faktörleri?","VIII, IX, XI, XII"],
+["Faktör IV? Faktör IX? Faktör XII?","Kalsiyum · Christmas · Hageman"],
+["Faktör X'in adı?","Stuart-Prower faktörü (her iki yol)"],
+["Fibrini stabilize eden faktör?","XIII (protransglutaminaz / fibrin stabilizing factor)"],
+["A grubunun antijeni ve antikoru?","A antijeni · anti-B"],
+["O grubunun antijeni ve antikoru?","Antijen yok · anti-A ve anti-B"],
+["Anti-A/anti-B ne zaman oluşur?","~2 aylıkken"],
+["Rh+ neyi gösterir?","D antijeninin varlığı"],
+["Anti-Rh antikoru nasıl oluşur?","Kendiliğinden değil; Rh– kişi Rh+ kan alınca. 2. maruziyet transfüzyon reaksiyonu"],
+["Anti-A ve anti-B serumda kümelenmeyen grup?","O"],
+["Adaptif bağışıklığın iki kolu?","Humoral = antikor aracılı (B) · Hücresel = hücre aracılı (T)"],
+["1., 2. ve 3. savunma hattı nedir?","1. deri + mukoza · 2. antimikrobiyal proteinler, fagositler, diğer hücreler (doğuştan) · 3. adaptif (hücresel + humoral)"],
+["Hematopoez nedir? Hemositoblast nedir?","Kan hücresi oluşumu · hematopoetik kök hücre"],
+["Bağışıklık sisteminin hücreleri?","Lökositler, mast hücreleri, yardımcı (fagositik) hücreler"],
+["Enflamasyonun 3 amacı?","Yayılmayı önler · kalıntı ve patojeni bertaraf eder · onarımı hazırlar"]
+];
+const HV=new Set([4,5,6,7,8,9,10,11,13,14,16,17,23,25,26,28,29,30,31,32,35,36,38,45,47,48,49,50,53,54,55,56,57,58,59,60,61,62,71,72,73,74,80,81,85,86,87,88,89,90]);
+Q.forEach((x,i)=>{if(HV.has(i))x[0]='🎯 '+x[0]});
+const box=document.getElementById('cards');
+function render(list){
+  box.innerHTML='';
+  list.forEach(([q,a])=>{
+    const d=document.createElement('div');d.className='fc';d.tabIndex=0;
+    d.innerHTML=`<div class="fc-in"><div class="fc-f">${q}</div><div class="fc-b">${a}</div></div>`;
+    d.onclick=()=>d.classList.toggle('on');
+    d.onkeydown=e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();d.classList.toggle('on')}};
+    box.appendChild(d);
+  });
+}
+render(Q);
+document.getElementById('shuffle').onclick=()=>{const c=[...Q];for(let i=c.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[c[i],c[j]]=[c[j],c[i]]}render(c)};
+let hvOnly=false;
+document.getElementById('onlyhv').onclick=e=>{hvOnly=!hvOnly;e.target.textContent=hvOnly?'📚 Tüm kartları göster':'🎯 Sadece hocanın vurguladıkları';render(hvOnly?Q.filter((x,i)=>HV.has(i)):Q)};
+document.getElementById('closeall').onclick=()=>document.querySelectorAll('.fc.on').forEach(x=>x.classList.remove('on'));
+
+// ---- Hocanın vurguladıkları (slaytta kırmızı / mavi / kalın yazılanlar)
+// [slayt, soru(vurgulanan ifade), cevap, renk: r=kırmızı b=mavi k=kalın]
+const H=[
+[3,"Kanın 3 işlevi (başlıklar kırmızı, maddeler kalın)","1. Dağıtım: O₂ ve besin · CO₂ ve atık atma · hormon taşıma — 2. Düzenleme: vücut ısısı · tampon ile pH · sıvı hacmi — 3. Koruma: plazma proteini + trombosit aktivasyonu · pıhtıyı başlatma · antikor · kompleman · lökosit aktivasyonu","r"],
+[4,"Kan; neden oluşur?","1. Plazma (%55) · 2. Şekilli elemanlar (%45): eritrosit (RBC), lökosit (WBC), trombosit (PLT)","r"],
+[5,"Plazma nasıl elde edilir?","Antikoagülan eklenir → santrifüj (ağır hücreler dibe, hafif plazma üste)","k"],
+[6,"Fark: …… içermeyen plazmaya \"serum\" denir","Pıhtılaşma proteinleri (FİBRİNOJEN). Serumda antikoagülan eklenmez, kanın pıhtılaşmasına izin verilir","b"],
+[7,"Kan plazmasının içeriği","Su (%90) · çözünmüş plazma proteinleri · diğer çözünen maddeler","k"],
+[8,"Plazma proteinleri çoğunlukla nerede üretilir?","KARACİĞER","r"],
+[8,"% 60 …… · % 36 …… · % 4 ……","Albümin · Globulinler · Fibrinojen","b"],
+[8,"Albümin, globulin ve fibrinojenin görevleri","Albümin: taşıma (yağ asidi, tiroid, steroid hormonları) + viskozite ve ozmotik basınç · Globulin: immünoglobulinler + taşıma globulinleri · Fibrinojen: pıhtılaşmada fibrine dönüşür, çıkarılınca serum kalır","k"],
+[9,"Diğer çözünen maddelerin başlıkları","Azotlu metabolizma yan ürünleri (laktik asit, üre, kreatinin, ürik asit, bilirubin) · Besinler (glikoz, amino asit, lipit, kolesterol) · Elektrolitler (Na, K, Ca, Mg, klorür, bikarbonat, fosfat, sülfat) · Solunum gazları (O₂, CO₂) · proteine bağlı hormonlar","r"],
+[11,"Bikonkav şeklin 3 faydası","Geniş yüzey/hacim oranı · O₂'yi hızla emer ve bırakır · bükülüp küçük kılcallara girer","k"],
+[11,"Kırmızı kan hücresi sayımı","1 ml tam kandaki eritrosit sayısı: Erkek 4.5–6.3 milyon · Kadın 4.2–5.5 milyon","r"],
+[11,"Hematokrit (HTC)","Santrifüjlenmiş tam kandaki eritrositlerin yüzdesi: Erkek %47 ± %5 · Kadın %42 ± %5","r"],
+[12,"Normal Hb (erkek / kadın)","Erişkin erkek 14–18 g/dL · yetişkin kadın 12–16 g/dL tam kan","r"],
+[13,"Hematopoez · Hemositoblast","Hematopoez = kan hücresi oluşumu · Hemositoblast = hematopoetik kök hücre","r"],
+[13,"Hematopoez nerede olur?","Kırmızı kemik iliği: iskelet kemikleri · humerus ve uyluk kemiğinin (femur) epifizleri","r"],
+[13,"Miyeloid kök hücre · Lenfoid kök hücre","Miyeloid → RBC'ler + bazı WBC'ler · Lenfoid → lenfosit","r"],
+[16,"Lökositoz","WBC > 11.000 /mm³ → bakteriyel veya viral istilaya yanıt (normal 4.000–11.000)","r"],
+[16,"2 ana lökosit türü","Granülositler · Agranülositler","r"],
+[17,"Granülositler","Nötrofil, eozinofil, bazofil · RBC'den büyük, kısa ömürlü, loblu çekirdek, fagositik (nötrofil çok loblu · eozinofil 2 loblu kırmızı granül · bazofil 2 loblu mor-siyah granül)","r"],
+[18,"NÖTROFİL","En çok (%50–70) · PMN · peroksidaz, hidrolitik enzim, defensin · bakteri avcısı (çok fagositik)","r"],
+[18,"EOZİNOFİL","%2–4 · büyük parazit/solucanı sindiren enzimler · bağışıklık düzenleyicisi · immün kompleksleri fagosite ederek alerji şiddetini azaltır","r"],
+[18,"BAZOFİL","En nadir (%0,5–1) · histamin (vazodilatör, WBC'leri çeker) · antihistaminikler etkili · mast hücresine benzer","r"],
+[19,"Agranülositler","Lenfosit + monosit · yapısal benzer, işlevsel farklı · çekirdek: lenfosit büyük küre, monosit böbrek şekli","r"],
+[20,"3 tip lenfosit: T · B · NK","T: hücresel bağışıklık, virüslü ve tümör hücresine doğrudan · B: humoral, antikor üreten plazma hücresi · NK: anormal ve kanserleşmiş hücreleri tespit edip yok eder","r"],
+[21,"Makrofajlar","Monositten doğar · çok hareketli, aktif fagosit · virüs, hücre içi bakteri, parazit, kronik enfeksiyona karşı · lenfositleri aktive eder","r"],
+[22,"Lökopoez: iki sitokin ailesi (hematopoietik faktörler)","1. İnterlökinler (IL, numaralı) · 2. Koloni uyarıcı faktörler (CSF, uyardığı hücreye göre adlandırılır) · kaynak: makrofaj + T hücresi","r"],
+[24,"Bağışıklık sistemi: Organlar","Kemik iliği · timus · dalak · lenf düğümleri · MALT (bağırsak ve hava yolu epiteliyle ilişkili lenfoid doku)","r"],
+[25,"Bağışıklık sistemi: Hücreler · Proteinler","Hücreler: lökositler, mast hücreleri, yardımcı (fagositik) hücreler · Proteinler: antikorlar, komplemanlar","r"],
+[27,"1. Doğuştan savunma: İlk ve İkinci savunma hattı","Hızlı · 1. hat: sağlam deri + mukoza · 2. hat: antimikrobiyal proteinler (interferon, kompleman), fagositler, diğer hücreler; yayılmayı engeller · en önemli mekanizma ENFLAMASYON","r"],
+[27,"2. Adaptif savunma: Üçüncü savunma hattı","Belirli yabancı maddelere saldırı (hücresel + humoral) · spesifik olmayandan daha geç tepki · doğuştan sistemle birlikte çalışır","r"],
+[35,"Enflamatuar mediatörler (kimyasallar)","Histamin, kininler, prostaglandinler, kompleman, sitokinler · salgılayanlar: yaralı doku, fagosit, lenfosit, bazofil, mast hücresi · damar genişler → hiperemi","r"],
+[36,"Enflamatuar yanıt: vasküler geçirgenlik","Kılcal geçirgenlik artar → eksüda (protein + pıhtılaşma faktörü + antikor) → ödem → ağrı","r"],
+[36,"Enflamatuar yanıt: ödem","Zararlı maddeyi seyreltir · O₂ ve besin getirir · bakteri yayılmasını önleyen pıhtılaşma proteinlerinin girişine izin verir","r"],
+[37,"Fagositik mobilizasyon: dört ana aşama","Lökositoz (ilikten nötrofil salınır) → Marjinasyon (kılcal duvarına yapışır) → Diapedez (duvardan sıkışarak çıkar, fagositoz başlar) → Kemotaksi (kimyasal nötrofili çeker, pozitif kemotaksis)","r"],
+[39,"En önemli antimikrobiyal proteinler","İnterferonlar (IFN) ve kompleman proteinleri · mikroba doğrudan saldırır, üremesini engeller","k"],
+[41,"Adaptif bağışıklık sisteminin özellikleri","Belirli yabancı maddeleri tanır · hareketsiz bırakır, etkisizleştirir, yok eder · enflamatuar yanıtı güçlendirir ve komplemanı aktive eder","r"],
+[42,"Adaptif sistem: iki ayrı kolu","Antijene özgü, sistemik, hafızalı · Humoral = antikor aracılı (B) · Hücresel = hücre aracılı (T)","r"],
+[44,"5 sınıf immünoglobulin","IgG: plazmada en bol, plasentayı geçer · IgA: salgılarda (tükürük, safra) · IgM: ilk antikor (birincil yanıt), komplemanı aktive eder · IgD: IgM ile B hücresi yüzey reseptörü · IgE: mast hücresine bağlanır, enflamasyonu kolaylaştırır","r"],
+[45,"Birincil immün yanıt","İlk maruziyet · gecikme 3–6 gün · zirve 10 gün içinde · sonra azalır","r"],
+[45,"İkincil immün yanıt","Aynı antijene tekrar maruziyet · bellek hücreleri saatler içinde · 2–3 günde çok daha yüksek zirve · daha fazla afinite · haftalarca–aylarca yüksek","r"],
+[46,"T hücrelerinin 3 alt grubu","Sitotoksik T (öldürücü, CD8) · Yardımcı T (CD4) · Baskılayıcı T (Treg): B antikor üretimini ve sitotoksik + yardımcı T aktivitesini baskılar","r"],
+[51,"Trombosit tıkacı (tamamı kalın)","POZİTİF geri bildirim · vWF yardımıyla açıkta kalan kolajene yapışma · şişer, sivri uçlu ve yapışkan olur, haberci salgılar · serotonin + tromboksan A₂ → spazm ve agregasyon artar","k"],
+[53,"Pıhtılaşmanın aşamaları","1. Protrombin aktivatörü oluşur (intrinsik + ekstrinsik yol) · 2. Protrombin → trombin · 3. Trombin fibrinojeni birleştirip fibrin ağı yapar","r"],
+[61,"Aglütinasyon tablosu","AB: anti-A ve anti-B ile kümelenir · A: anti-A ile · B: anti-B ile · O: kümelenmez","k"]
+];
+(function(){
+  let ok={};try{ok=JSON.parse(localStorage.getItem('kanfiz-hoca')||'{}')}catch(e){}
+  const el=document.getElementById('hedef');
+  el.innerHTML=H.map(([s,q,a,c],i)=>`<label class="hd${ok[i]?' ok':''}"><input type="checkbox" data-h="${i}" ${ok[i]?'checked':''}><div><div class="q"><i class="${c==='b'?'blue':''}">${c==='k'?'■':'●'}</i> ${q}</div><div class="a">${a}</div></div><span class="sn">S${s}</span></label>`).join('');
+  function upd(){const d=Object.values(ok).filter(Boolean).length;document.getElementById('hprog').style.width=(d/H.length*100)+'%';document.getElementById('htxt').textContent=`${d}/${H.length} hedef biliniyor`+(d===H.length?' — 💯 hazırsın!':'')}
+  el.addEventListener('change',e=>{const b=e.target;if(!b.dataset.h)return;ok[b.dataset.h]=b.checked;b.closest('.hd').classList.toggle('ok',b.checked);try{localStorage.setItem('kanfiz-hoca',JSON.stringify(ok))}catch(_){};upd()});
+  upd();
+  // kartlara "hoca vurguladı" rozeti
+  const hs=new Set(H.map(x=>x[0]));
+  document.querySelectorAll('section.s .card').forEach(card=>{
+    const sl=card.querySelector(':scope > .sl');const h3=card.querySelector('h3');if(!sl||!h3)return;
+    const nums=[];sl.textContent.replace(/(\d+)(?:–(\d+))?/g,(m,a,b)=>{for(let k=+a;k<=(b?+b:+a);k++)nums.push(k)});
+    if(nums.some(n=>hs.has(n)))h3.insertAdjacentHTML('afterbegin','<span class="hvb">🎯 HOCA VURGUSU</span>');
+  });
+})();
+
+// ---- Ezber modu: sayıları ve cevapları gizle, dokununca aç
+(function(){
+  let on=false;try{on=localStorage.getItem('kanfiz-ezber')==='1'}catch(e){}
+  const btn=document.getElementById('ezbtn');
+  function set(v){on=v;document.body.classList.toggle('ezber',on);btn.textContent=on?'👀 Ezber modu: AÇIK':'🙈 Ezber modu';document.querySelectorAll('.show').forEach(x=>x.classList.remove('show'));try{localStorage.setItem('kanfiz-ezber',on?'1':'0')}catch(e){}}
+  btn.onclick=()=>set(!on);set(on);
+  document.addEventListener('click',e=>{if(!on)return;const t=e.target.closest('.n, #sayilar td:nth-child(2), .hd .a');if(t){e.preventDefault();t.classList.toggle('show')}},true);
+})();
+
+// ---- 62 slayt listesi
+const S=[
+[1,"Kapak — Kan Fizyolojisi, Dr. Hülya Buzcu",1],[2,"Kan nedir? (8 özellik)",1],[3,"Kanın işlevleri (DDK)",1],
+[4,"Kanın bileşimi %55/%45",2],[5,"Plazma nasıl ayrılır",2],[6,"Serum ve fark",2],[7,"Kan plazması (%90 su) + tüp",2],[8,"Plazma proteinleri 60/36/4",2],[9,"Diğer çözünen maddeler",2],
+[10,"RBC özellikleri",3],[11,"Bikonkav şekil, RBC sayısı, HTC",3],[12,"Hemoglobin",3],[13,"Eritrosit üretimi (hematopoez)",3],[14,"Diyet gereksinimleri",3],[15,"Eritrosit yıkımı",3],
+[16,"WBC genel",4],[17,"Granülositler",4],[18,"Nötrofil, eozinofil, bazofil",4],[19,"Agranülositler",4],[20,"Lenfosit (T, B, NK)",4],[21,"Monosit / makrofaj",4],[22,"Lökosit üretimi (IL, CSF)",4],[23,"Lökopoez soy ağacı",4],
+[24,"Bağışıklık sistemi, organlar",5],[25,"Hücreler, proteinler",5],[26,"İki savunma sistemi",5],[27,"3 savunma hattı",5],[28,"Doğuştan/adaptif şeması",5],[29,"Doğuştan savunma tanımı",5],[30,"Yüzey bariyerleri",5],[31,"İç savunmalar",5],[32,"Fagositler",5],[33,"Fagositoz mekanizması",5],[34,"NK hücreleri",5],[35,"Enflamasyon",5],[36,"Vasküler geçirgenlik, ödem",5],[37,"Fagositik mobilizasyon",5],[38,"Mobilizasyon şeması",5],[39,"Antimikrobiyal proteinler",5],[40,"Ateş",5],[41,"Adaptif savunma tanımı",5],[42,"Özgü/sistemik/hafıza, 2 kol",5],[43,"Periferik lenfoid koloniler",5],[44,"B lenfosit, 5 Ig",5],[45,"İmmünolojik hafıza",5],[46,"T lenfosit alt grupları",5],
+[47,"Trombositler",6],[48,"Trombosit üretimi",6],
+[49,"Hemostaz 3 aşama",7],[50,"Vasküler spazm (+30 dk, endotelin)",7],[51,"Trombosit tıkacı",7],[52,"Trombosit fazı şeması",7],[53,"Koagülasyon",7],[54,"Koagülasyon fazı şeması",7],[55,"İntrinsik/ekstrinsik/ortak yol",7],[56,"Faktör tablosu I–XIII",7],
+[57,"İnsan kan grupları",8],[58,"ABO",8],[59,"Rh faktörü",8],[60,"Kan gruplama",8],[61,"Aglütinasyon tablosu",8],[62,"Boş kapanış slaytı",0]
+];
+const col=['#888','var(--c1)','var(--c2)','var(--c3)','var(--c4)','var(--c5)','var(--c6)','var(--c7)','var(--c8)'];
+document.getElementById('slidelist').innerHTML=S.map(([n,t,s])=>`<a href="${s?'#s'+s:'#slaytlar'}" style="--k:${col[s]}"><b>S${n}</b> · ${t}</a>`).join('');
+</script>
+</body>
+</html>
